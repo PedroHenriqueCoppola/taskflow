@@ -160,6 +160,8 @@ O projeto contará com:
 
 Objetivo: garantir estabilidade e confiabilidade do sistema.
 
+Para acessar informações mais aprofundadas sobre a arquitetura do projeto, de acordo com o modelo C4 proposto pelo professor na sala de aula, [clique aqui](https://docs.google.com/document/d/17f2PVuOm84QrsEiIe9tt2iVzr5U_io2kb9HyUzpglsM/edit?usp=sharing).
+
 ## 🚀 Escopo do Projeto
 
 Projeto de médio porte, com entrega ao final do semestre, focado em:
