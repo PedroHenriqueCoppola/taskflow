@@ -1,9 +1,10 @@
-import { GlobalStyle } from "../styles/globalStyles.js";
+import './PublicLayout.css';
+import { GlobalStyle } from "../../styles/globalStyles.js";
 import { Outlet } from "react-router-dom";
 
 const PublicLayout = () => {
     return (
-        <div>
+        <div className='publicLayoutApp'>
             <GlobalStyle />
             <Outlet />
         </div>

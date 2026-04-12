@@ -1,7 +1,10 @@
+import { GlobalStyle, SubTitle } from "../../styles/globalStyles";
+
 const Calendar = () => {
     return (
         <div>
-			<h1>Página de Calendar</h1>
+            <GlobalStyle />
+			<SubTitle>Página de Calendar</SubTitle>
         </div>
     )
 }

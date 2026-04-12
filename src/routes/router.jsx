@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App.jsx';
 
-import PublicLayout from "../layouts/PublicLayout.jsx";
+import PublicLayout from "../layouts/PublicLayout/PublicLayout.jsx";
 import NotFound from '../pages/NotFound/NotFound.jsx';
 import Login from '../pages/Login/Login.jsx';
 import SignUp from '../pages/SignUp/SignUp.jsx';

@@ -1,7 +1,10 @@
+import { GlobalStyle, Title } from "../../styles/globalStyles";
+
 const NotFound = () => {
     return (
         <div>
-			<h1>NotFound</h1>
+            <GlobalStyle />
+			<Title>NotFound</Title>
         </div>
     )
 }

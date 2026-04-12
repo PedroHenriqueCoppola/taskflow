@@ -1,7 +1,10 @@
+import { GlobalStyle, SubTitle } from "../../styles/globalStyles";
+
 const SignUp = () => {
     return (
         <div>
-			<h1>Página de SignUp</h1>
+            <GlobalStyle />
+			<SubTitle>Página de SignUp</SubTitle>
         </div>
     )
 }
