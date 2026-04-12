@@ -60,3 +60,15 @@ export const IconBox = styled.div`
 
     color: var(--white);
 `;
+
+export const LinkText = styled.a`
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--standard-green);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        font-weight: 600;
+    }
+`;

@@ -1,24 +1,11 @@
 import './Login.css';
-import styled from "styled-components";
 import { ListTodo, Mail, Lock } from "lucide-react";
-import { GlobalStyle, Title, SubTitle, IconBox } from "../../styles/globalStyles";
+import { GlobalStyle, Title, SubTitle, IconBox, LinkText } from "../../styles/globalStyles";
 import Card from "../../components/Card/Card";
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
 const Login = () => {
-    const LinkText = styled.a`
-        font-size: 1.4rem;
-        font-weight: 400;
-        color: var(--standard-green);
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-
-        &:hover {
-            font-weight: 600;
-        }
-    `;
-
     return (
         <div className="loginApp">
             <GlobalStyle />
