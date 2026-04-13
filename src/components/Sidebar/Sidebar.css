@@ -1,0 +1,46 @@
+.closed {
+    padding: 2rem 0.5rem;
+}
+
+.closed h2,
+.closed a,
+.closed span {
+    display: none;
+}
+
+.closed .sidebarLogo,
+.closed .dashboardDiv,
+.closed .calendarDiv,
+.closed .progressDiv,
+.closed .tasksDiv,
+.closed .adminDiv {
+    justify-content: center;
+}
+
+.closed .sidebarLinks,
+.closed .sidebarAdmin {
+    align-items: center;
+}
+
+.sidebarLogo {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}
+
+.sidebarLinks,
+.sidebarAdmin {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.dashboardDiv,
+.calendarDiv,
+.progressDiv,
+.tasksDiv,
+.adminDiv {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}

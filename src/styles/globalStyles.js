@@ -25,6 +25,8 @@ export const GlobalStyle = createGlobalStyle`
         --white: #ffffff;
         --white-bg: #fcfdfcff;
         --gray: #6b7280;
+        --heavier-gray: #6e7d91;
+        --border-gray: #e5e7eb;
         --black: #181f25;
         --standard-green: #2ea07e;
         --lighter-green: #41ad8b;
@@ -42,7 +44,7 @@ export const Title = styled.h1 `
 `;
 
 export const SubTitle = styled.p`
-    font-size: 1.4rem;
+    font-size: ${({ fontSize }) => fontSize || '1.4rem'};;
     font-weight: 400;
     color: var(--gray);
 `;
@@ -52,8 +54,8 @@ export const IconBox = styled.div`
     align-items: center;
     justify-content: center;
 
-    width: 4.8rem;
-    height: 4.8rem;
+    width: ${({ size }) => size || '4.8rem'};
+    height: ${({ size }) => size || '4.8rem'};
 
     border-radius: 1.2rem;
     background-color: var(--standard-green);

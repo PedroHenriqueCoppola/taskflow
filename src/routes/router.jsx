@@ -9,7 +9,7 @@ import Dashboard from '../pages/Dashboard/Dashboard.jsx';
 import Calendar from '../pages/Calendar/Calendar.jsx';
 import Progress from '../pages/Progress/Progress.jsx';
 import Tasks from '../pages/Tasks/Tasks.jsx';
-// to-do: admin
+import Admin from '../pages/Admin/Admin.jsx';
 
 export const router = createBrowserRouter([
 	// Rotas públicas (sem Sidebar)
@@ -49,6 +49,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/tasks',
 				element: <Tasks />
+			},
+			{
+				path: '/admin',
+				element: <Admin />
 			}
 		]
 	}

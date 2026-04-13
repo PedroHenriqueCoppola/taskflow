@@ -1,0 +1,7 @@
+.appLayout {
+    display: flex;
+}
+
+.appMain {
+    flex: 1;
+}
