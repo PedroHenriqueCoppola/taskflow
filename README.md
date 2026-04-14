@@ -4,21 +4,23 @@
 Sistema Web de Gerenciamento Inteligente de Tarefas 🚀🔥
 </p>
 
-<img width="1329" height="574" alt="lovable dev_projects_4da30d72-507a-42ba-9a09-369cceda76e3" src="https://github.com/user-attachments/assets/fdcc499e-65a7-4551-a759-64f086bae0a0" />
+<p align="center">
+  <a href="#-domínio-do-problema">Domínio do Problema</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-objetivo-do-projeto">Objetivo do Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-público-alvo">Público-Alvo</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-funcionalidades-principais">Funcionalidades Principais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-requisitos-funcionais">Requisitos Funcionais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-requisitos-não-funcionais">Requisitos Não Funcionais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-arquitetura-e-tecnologias">Arquitetura e Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-testes">Testes</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-escopo-do-projeto">Escopo do Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-links">Links</a>
+</p>
 
-<img width="1321" height="581" alt="image" src="https://github.com/user-attachments/assets/0d50f82b-ffd8-4182-b2d6-3bb30e088ae4" />
+<img width="1878" height="956" alt="taskflow" src="https://github.com/user-attachments/assets/9fcd6d00-3459-4a66-a41a-e07bd28a8ff2" />
 
-<img width="1325" height="582" alt="image" src="https://github.com/user-attachments/assets/746278b6-ca16-40c0-988f-3f53f4092ccc" />
 
-<img width="1323" height="583" alt="image" src="https://github.com/user-attachments/assets/f89a9f5c-d290-4b69-ba62-c1809e7076e6" />
-
-<img width="1322" height="578" alt="image" src="https://github.com/user-attachments/assets/4da3ed82-ef18-4fac-8395-167b16eddcf9" />
-
-<img width="1325" height="584" alt="image" src="https://github.com/user-attachments/assets/3e78fa10-78ab-4bc5-b180-c3d1cbc6f0cb" />
-
-<img width="1338" height="578" alt="image" src="https://github.com/user-attachments/assets/08fbba0b-8367-4003-94ab-c78e9fb977dc" />
-
-## 📖 Domínio do Problema (Escopo)
+## 📖 Domínio do Problema
 
 A organização de tarefas pessoais e compromissos recorrentes ainda é um desafio para muitos jovens adultos. Embora existam diversas ferramentas no mercado, muitas são pagas, possuem funcionalidades limitadas na versão gratuita ou não oferecem uma visualização clara e analítica do progresso do usuário.
 
@@ -96,7 +98,7 @@ Jovens adultos (18–35 anos) que desejam:
    - Remover usuário
    - Visualizar quantidade de tarefas por usuário
 
-## 📋 Requisitos Funcionais (RF)
+## 📋 Requisitos Funcionais
 
 RF01 – O sistema deve permitir cadastro de usuário.
 
@@ -118,7 +120,7 @@ RF09 – O sistema deve possuir perfil administrador.
 
 RF10 – O administrador deve visualizar usuários cadastrados.
 
-## 📋 Requisitos Não Funcionais (RNF)
+## 📋 Requisitos Não Funcionais
 
 RNF01 – O sistema deve possuir interface responsiva.
 
@@ -171,14 +173,6 @@ Projeto de médio porte, com entrega ao final do semestre, focado em:
 - Estrutura adequada para portfólio
 
 Não haverá deploy público obrigatório, sendo mantido como projeto acadêmico e de portfólio.
-
-## 🔮 Possíveis Extensões Futuras
-
-- Dark mode
-- Exportação de dados
-- Sistema de metas mensais
-- Notificações
-- Deploy em ambiente cloud
 
 ## 🔗 Links
 
