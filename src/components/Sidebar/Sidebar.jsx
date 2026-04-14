@@ -1,6 +1,6 @@
 import './Sidebar.css';
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { SubTitle, IconBox } from "../../styles/globalStyles";
 import { ListTodo, LayoutDashboard, Calendar, TrendingUp, Shield } from "lucide-react";
 
@@ -14,16 +14,37 @@ const StyledSidebar = styled.div`
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
-    padding: 2rem;
+    padding: ${({ isOpen }) => (isOpen ? "2rem" : "2rem 1rem")};
     
-    width: ${({ isOpen }) => (isOpen ? "255px" : "50px")};
+    width: ${({ isOpen }) => (isOpen ? "255px" : "60px")};
     transition: width 0.3s ease;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+
+    width: 100%;
+    border-radius: 1rem;
+    padding: .8rem 1rem;
+
     text-decoration: none;
     color: var(--gray);
     font-size: 1.4rem;
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--softer-green);
+        color: var(--heavier-green);
+        font-weight: 600;
+    }
+
+    &.active {
+        background-color: var(--softer-green);
+        color: var(--heavier-green);
+        font-weight: 600;
+    }
 `;
 
 const StyledTitle = styled.h2`
@@ -37,8 +58,8 @@ const Sidebar = ({ isOpen }) => {
     return (
         <StyledSidebar isOpen={isOpen} className={isOpen ? "open" : "closed"}>
             <div className="sidebarLogo">
-                <IconBox size="3.4rem">
-                    <ListTodo size={16} />
+                <IconBox size={isOpen ? "3.4rem" : "3rem"}>
+                    <ListTodo size={isOpen ? 16 : 12} />
                 </IconBox>
 
                 <StyledTitle>TaskFlow</StyledTitle>
@@ -47,33 +68,35 @@ const Sidebar = ({ isOpen }) => {
             <div className="sidebarLinks">
                 <SubTitle fontSize="1.2rem">Menu</SubTitle>
 
-                <div className='dashboardDiv'>
-                    <LayoutDashboard size={16} color="#6b7280" />
-                    <StyledLink to="/">Dashboard</StyledLink>
-                </div>
+                <StyledLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
+                    <LayoutDashboard size={16} />
+                    <span className="text">Dashboard</span>
+                </StyledLink>
 
-                <div className="calendarDiv">
-                    <Calendar size={16} color="#6b7280" />
-                    <StyledLink to="/calendar">Calendário</StyledLink>
-                </div>
+                <StyledLink to="/calendar" className={({ isActive }) => isActive ? "active" : ""}>
+                    <Calendar size={16} />
+                    <span className="text">Calendário</span>
+                </StyledLink>
 
-                <div className="progressDiv">
-                    <TrendingUp size={16} color="#6b7280" />
-                    <StyledLink to="/progress">Progresso</StyledLink>
-                </div>
+                <StyledLink to="/progress" className={({ isActive }) => isActive ? "active" : ""}>
+                    <TrendingUp size={16} />
+                    <span className="text">Progresso</span>
+                </StyledLink>
 
-                <div className="tasksDiv">
-                    <ListTodo size={16} color="#6b7280" />
-                    <StyledLink to="/tasks">Tasks</StyledLink>
-                </div>
+                <StyledLink to="/tasks" className={({ isActive }) => isActive ? "active" : ""}>
+                    <ListTodo size={16} />
+                    <span className="text">Tasks</span>
+                </StyledLink>
             </div>
 
             <div className="sidebarAdmin">
                 <SubTitle fontSize="1.2rem">Admin</SubTitle>
 
                 <div className="adminDiv">
-                    <Shield size={16} color="#6b7280" />
-                    <StyledLink to="/admin">Administração</StyledLink>
+                    <StyledLink to="/admin" className="sidebarItem">
+                        <Shield size={16} />
+                        <span className="text">Administração</span>
+                    </StyledLink>
                 </div>
             </div>
         </StyledSidebar>

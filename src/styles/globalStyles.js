@@ -30,6 +30,8 @@ export const GlobalStyle = createGlobalStyle`
         --black: #181f25;
         --standard-green: #2ea07e;
         --lighter-green: #41ad8b;
+        --heavier-green: #2f7f60;
+        --softer-green: #e8f7f3;
     }
 
     body {
@@ -44,7 +46,7 @@ export const Title = styled.h1 `
 `;
 
 export const SubTitle = styled.p`
-    font-size: ${({ fontSize }) => fontSize || '1.4rem'};;
+    font-size: ${({ fontSize }) => fontSize || '1.4rem'};
     font-weight: 400;
     color: var(--gray);
 `;

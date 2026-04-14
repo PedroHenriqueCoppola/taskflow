@@ -1,19 +1,9 @@
-.closed {
-    padding: 2rem 0.5rem;
-}
-
 .closed h2,
-.closed a,
 .closed span {
     display: none;
 }
 
-.closed .sidebarLogo,
-.closed .dashboardDiv,
-.closed .calendarDiv,
-.closed .progressDiv,
-.closed .tasksDiv,
-.closed .adminDiv {
+.closed .sidebarLogo {
     justify-content: center;
 }
 
@@ -32,15 +22,5 @@
 .sidebarAdmin {
     display: flex;
     flex-direction: column;
-    gap: 1.6rem;
-}
-
-.dashboardDiv,
-.calendarDiv,
-.progressDiv,
-.tasksDiv,
-.adminDiv {
-    display: flex;
-    align-items: center;
-    gap: .8rem;
+    gap: .5rem;
 }
