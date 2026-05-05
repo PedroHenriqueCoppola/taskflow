@@ -1,9 +1,7 @@
 import './TaskBox.css';
 
 import { Title, Description } from "../../styles/globalStyles";
-import { Clock } from "lucide-react";
-
-import Tag from '../Tag/Tag';
+import { PencilLine, Trash2 } from "lucide-react";
 
 const TaskBox = (props) => {
     return (
@@ -13,13 +11,29 @@ const TaskBox = (props) => {
             </div>
 
             <div className="taskBoxContent">
-                <Title fontSize="1.4rem" fontWeight="600">
-                    {props.taskBoxTitle}
-                </Title>
+                <div className="taskBoxDetails">
+                    <div>
+                        <Title fontSize="1.4rem" fontWeight="600">
+                            {props.taskBoxTitle}
+                        </Title>
 
-                <Description>
-                    {props.description}
-                </Description>
+                        <Description>
+                            {props.description}
+                        </Description>
+                    </div>
+
+                    {props.showActions && (
+                        <div className="editDetails">
+                            <button className="taskActionBtn btnBlock" title="Editar tarefa">
+                                <PencilLine size={16} strokeWidth={1.5} />
+                            </button>
+
+                            <button className="taskActionBtn btnDelete" title="Excluir tarefa">
+                                <Trash2 size={16} strokeWidth={1.5} />
+                            </button>
+                        </div>
+                    )}
+                </div>
 
                 <div className="taskBoxTags">
                     {props.tags}

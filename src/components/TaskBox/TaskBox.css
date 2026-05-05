@@ -19,6 +19,11 @@
     }
 }
 
+.taskBox:hover .editDetails {
+    opacity: 1;
+    visibility: visible;
+}
+
 .checkButton {
     width: 2.5rem;
     height: 2.5rem;
@@ -41,6 +46,47 @@
     display: flex;
     flex-direction: column;
     gap: .4rem;
+    width: 100%;
+}
+
+.editDetails {
+    display: flex;
+    gap: 1.5rem;
+
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity .3s ease, visibility .3s ease;
+}
+
+.taskBoxDetails {
+    display: flex;
+    justify-content: space-between;
+}
+
+.taskActionBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .3s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(0.9);
+    }
+} 
+
+.btnBlock {
+    color: var(--black);
+}
+
+.btnDelete {
+    color: var(--blocked-red);
 }
 
 .taskBoxTags {

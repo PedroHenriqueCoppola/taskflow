@@ -27,6 +27,7 @@ const Tasks = () => {
 
             <div className="tasksBoxes">
                 <TaskBox
+                    showActions={true}
                     taskBoxTitle="Estudar React"
                     description="Continuar o curso de React avançado"
                     tags={
@@ -45,6 +46,7 @@ const Tasks = () => {
                 />
 
                 <TaskBox
+                    showActions={true}
                     taskBoxTitle="Exercício físico"
                     description="30 minutos de caminhada ou academia"
                     tags={
@@ -63,6 +65,7 @@ const Tasks = () => {
                 />
 
                 <TaskBox
+                    showActions={true}
                     taskBoxTitle="Revisar finanças"
                     description="Conferir gastos e orçamento do mês"
                     tags={
@@ -76,6 +79,7 @@ const Tasks = () => {
                 />
 
                 <TaskBox
+                    showActions={true}
                     taskBoxTitle="Reunião de equipe"
                     description="Alinhamento semanal com o time"
                     tags={
@@ -94,6 +98,7 @@ const Tasks = () => {
                 />
 
                 <TaskBox
+                    showActions={true}
                     taskBoxTitle="Ler 20 páginas"
                     description="Livro: Atomic Habits"
                     tags={
