@@ -51,6 +51,19 @@ export const SubTitle = styled.p`
     color: var(--gray);
 `;
 
+export const MinorTitle = styled.h2 `
+    font-size: ${({ fontSize }) => fontSize || '1.5rem'};
+    letter-spacing: ${({ letterSpacing }) => letterSpacing || 'normal'};
+    font-weight: 500;
+    color: var(--gray);
+`;
+
+export const Description = styled.h5 `
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--gray);
+`;
+
 export const IconBox = styled.div`
     display: inline-flex;
     align-items: center;

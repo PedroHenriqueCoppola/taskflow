@@ -1,0 +1,52 @@
+.InfoBox {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.InfoBox:hover {
+    transform: translateY(-1.5px);
+
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.04),
+        0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.FilterBox {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--white);
+    border: 1px solid var(--border-gray);
+
+    width: fit-content;
+    padding: 1rem 1.2rem;
+    border-radius: 1rem;
+
+    transition: transform 0.2s ease;
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--softer-green);
+    }
+}
+
+.FilterBox > p {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--black);
+}
+
+.FilterBox.active {
+    background-color: var(--standard-green);
+    font-weight: bold;
+    border: none;
+
+    &:hover {
+        background-color: var(--lighter-green);
+    }
+}
+
+.FilterBox.active > p {
+    color: var(--white);
+}

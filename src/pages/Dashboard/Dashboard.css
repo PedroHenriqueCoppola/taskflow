@@ -1,0 +1,39 @@
+.dashboardApp {
+    /* usar como base pro fundo */
+    /* background-color: var(--softer-green); */
+
+    width: 102.4rem;
+    margin: 3rem auto 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+}
+
+.dashboardTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.dashboardHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboardBoxes {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboardFilters {
+    display: flex;
+    gap: 1rem;
+}
+
+.dashboardTaskCards {
+    
+}

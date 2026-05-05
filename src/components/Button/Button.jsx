@@ -7,7 +7,13 @@ const Button = (props) => {
 
     return (
         <button className='Button' style={buttonStyle}>
-            {props.content}
+            {props.icon && (
+                <span className='buttonIcon'>
+                    {props.icon}
+                </span>
+            )}
+
+            <span>{props.content}</span>
         </button>
     );
 }
