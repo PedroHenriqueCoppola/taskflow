@@ -52,9 +52,9 @@ export const SubTitle = styled.p`
 `;
 
 export const MinorTitle = styled.h2 `
-    font-size: ${({ fontSize }) => fontSize || '1.5rem'};
+    font-size: ${({ fontSize }) => fontSize || '1.4rem'};
     letter-spacing: ${({ letterSpacing }) => letterSpacing || 'normal'};
-    font-weight: 500;
+    font-weight: ${({ fontWeight }) => fontWeight || '500'};
     color: var(--gray);
 `;
 

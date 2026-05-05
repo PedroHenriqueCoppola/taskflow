@@ -1,0 +1,48 @@
+.progressApp {
+    width: 102.4rem;
+    margin: 3rem auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.progressHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.progressSummary {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.summaryTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.summaryFilters {
+    display: flex;
+    gap: 1rem;
+}
+
+.summaryInfoBoxes {
+    display: flex;
+    justify-content: space-between;
+}
+
+.progressGraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.graphsDiv {
+    display: flex;
+    gap: 2rem;
+}

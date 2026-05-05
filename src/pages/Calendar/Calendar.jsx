@@ -7,7 +7,7 @@ import FilterBox from '../../components/FilterBox/FilterBox';
 import getCurrentMonthYear from '../../utils/getCurrentMonthYear';
 
 const Calendar = () => {
-    const [activeFilter, setActiveFilter] = useState("today");
+    const [activeFilter, setActiveFilter] = useState("week");
 
     return (
         <div className='calendarApp'>
