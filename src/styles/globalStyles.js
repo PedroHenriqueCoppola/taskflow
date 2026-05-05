@@ -32,6 +32,7 @@ export const GlobalStyle = createGlobalStyle`
         --lighter-green: #41ad8b;
         --heavier-green: #2f7f60;
         --softer-green: #e8f7f3;
+        --blocked-red: #d93b3b;
     }
 
     body {

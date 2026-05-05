@@ -85,7 +85,7 @@ const Sidebar = ({ isOpen }) => {
 
                 <StyledLink to="/tasks" className={({ isActive }) => isActive ? "active" : ""}>
                     <ListTodo size={16} />
-                    <span className="text">Tasks</span>
+                    <span className="text">Minhas Tarefas</span>
                 </StyledLink>
             </div>
 
