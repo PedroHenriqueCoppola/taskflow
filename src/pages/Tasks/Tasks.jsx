@@ -1,10 +1,111 @@
-import { GlobalStyle, SubTitle } from "../../styles/globalStyles";
+import './Tasks.css';
+
+import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
+import { Plus, Clock, RotateCcw } from "lucide-react";
+
+import Button from "../../components/Button/Button";
+import TaskBox from '../../components/TaskBox/TaskBox';
+import Tag from '../../components/Tag/Tag';
 
 const Tasks = () => {
     return (
-        <div>
+        <div className="tasksApp">
             <GlobalStyle />
-			<SubTitle>Página de Tasks</SubTitle>
+			
+            <div className="tasksHeader">
+                <div className="tasksTitle">
+                    <Title>Minhas tarefas</Title>
+			        <SubTitle>5 tarefas cadastradas</SubTitle>
+                </div>
+
+                <Button
+                    height={40}
+                    content="Nova tarefa"
+                    icon={<Plus size={16} />}
+                />
+            </div>
+
+            <div className="tasksBoxes">
+                <TaskBox
+                    taskBoxTitle="Estudar React"
+                    description="Continuar o curso de React avançado"
+                    tags={
+                        <>
+                            <Tag
+                                icon={<RotateCcw size={14} />}
+                                content="Diária"
+                            />
+
+                            <Tag
+                                icon={<Clock size={14} />}
+                                content="07:00"
+                            />
+                        </>
+                    }
+                />
+
+                <TaskBox
+                    taskBoxTitle="Exercício físico"
+                    description="30 minutos de caminhada ou academia"
+                    tags={
+                        <>
+                            <Tag
+                                icon={<RotateCcw size={14} />}
+                                content="Diária"
+                            />
+
+                            <Tag
+                                icon={<Clock size={14} />}
+                                content="22:00"
+                            />
+                        </>
+                    }
+                />
+
+                <TaskBox
+                    taskBoxTitle="Revisar finanças"
+                    description="Conferir gastos e orçamento do mês"
+                    tags={
+                        <>
+                            <Tag
+                                icon={<RotateCcw size={14} />}
+                                content="Semanal"
+                            />
+                        </>
+                    }
+                />
+
+                <TaskBox
+                    taskBoxTitle="Reunião de equipe"
+                    description="Alinhamento semanal com o time"
+                    tags={
+                        <>
+                            <Tag
+                                icon={<RotateCcw size={14} />}
+                                content="Semanal"
+                            />
+
+                            <Tag
+                                icon={<Clock size={14} />}
+                                content="09:00"
+                            />
+                        </>
+                    }
+                />
+
+                <TaskBox
+                    taskBoxTitle="Ler 20 páginas"
+                    description="Livro: Atomic Habits"
+                    tags={
+                        <>
+                            <Tag
+                                icon={<RotateCcw size={14} />}
+                                content="Diária"
+                            />
+                        </>
+                    }
+                />
+            </div>
         </div>
     )
 }

@@ -1,0 +1,28 @@
+.tasksApp {
+    width: 76.8rem;
+    margin: 3rem auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+}
+
+.tasksTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.tasksHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tasksBoxes {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
