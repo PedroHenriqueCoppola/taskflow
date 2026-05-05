@@ -1,0 +1,27 @@
+.calendarApp {
+    width: 102.4rem;
+    margin: 3rem auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+}
+
+.calendarTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.calendarHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calendarFilters {
+    display: flex;
+    gap: 1rem;
+}
