@@ -1,0 +1,52 @@
+.taskBox {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 1.2rem;
+
+    background-color: var(--white);
+    border: 1px solid var(--border-gray);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-1.5px);
+
+        box-shadow:
+            0 4px 8px rgba(0, 0, 0, 0.04),
+            0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.checkButton {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    border-radius: 50%;
+
+    border: 2px solid var(--border-gray);
+    background-color: transparent;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.checkButton:hover {
+    border-color: var(--standard-green);
+}
+
+.taskBoxContent {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.taskBoxTags {
+    display: flex;
+    gap: .8rem;
+    flex-wrap: wrap;
+
+    margin-top: .4rem;
+}

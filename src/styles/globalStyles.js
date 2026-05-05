@@ -41,8 +41,8 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Title = styled.h1 `
     color: var(--black);
-    font-size: 2.4rem;
-    font-weight: bold;
+    font-size: ${({ fontSize }) => fontSize || '2.4rem'};
+    font-weight: ${({ fontWeight }) => fontWeight || 'bold'};
 `;
 
 export const SubTitle = styled.p`

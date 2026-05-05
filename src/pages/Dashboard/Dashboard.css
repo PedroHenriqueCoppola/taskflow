@@ -1,9 +1,6 @@
 .dashboardApp {
-    /* usar como base pro fundo */
-    /* background-color: var(--softer-green); */
-
     width: 102.4rem;
-    margin: 3rem auto 1rem;
+    margin: 3rem auto;
 
     display: flex;
     flex-direction: column;
@@ -34,6 +31,8 @@
     gap: 1rem;
 }
 
-.dashboardTaskCards {
-    
+.dashboardPendentTasks {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
