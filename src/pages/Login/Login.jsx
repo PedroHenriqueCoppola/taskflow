@@ -1,11 +1,21 @@
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 import { ListTodo, Mail, Lock } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, IconBox, LinkText } from "../../styles/globalStyles";
+
 import Card from "../../components/Card/Card";
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const handleLoginClick = () => {
+        // lógica de validação de dados
+
+        navigate('/');
+    };
+
     return (
         <div className="loginApp">
             <GlobalStyle />
@@ -39,6 +49,7 @@ const Login = () => {
                     <Button 
                         height={40}
                         content="Entrar"
+                        onClick={handleLoginClick}
                     />
                 </Card>
             </div>

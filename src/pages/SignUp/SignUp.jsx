@@ -1,11 +1,22 @@
 import './SignUp.css';
+
+import { useNavigate } from 'react-router-dom';
 import { ListTodo, User, Mail, Lock } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, IconBox, LinkText } from "../../styles/globalStyles";
+
 import Card from "../../components/Card/Card";
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 
 const SignUp = () => {
+    const navigate = useNavigate();
+
+    const handleSignUpClick = () => {
+        // lógica de validação de dados
+
+        navigate('/login');
+    };
+
     return (
         <div className="signUpApp">
             <GlobalStyle />
@@ -53,6 +64,7 @@ const SignUp = () => {
                     <Button 
                         height={40}
                         content="Cadastrar"
+                        onClick={handleSignUpClick}
                     />
                 </Card>
             </div>

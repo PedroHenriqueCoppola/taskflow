@@ -6,7 +6,7 @@ const Button = (props) => {
     }
 
     return (
-        <button className='Button' style={buttonStyle}>
+        <button className='Button' style={buttonStyle} onClick={props.onClick}>
             {props.icon && (
                 <span className='buttonIcon'>
                     {props.icon}
