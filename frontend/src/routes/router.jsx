@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App.jsx';
 
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute.jsx';
 import PublicLayout from "../layouts/PublicLayout/PublicLayout.jsx";
 import NotFound from '../pages/NotFound/NotFound.jsx';
 import Login from '../pages/Login/Login.jsx';
@@ -36,23 +37,43 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <Dashboard />
+				element: (
+					<ProtectedRoute>
+						<Dashboard />
+					</ProtectedRoute>
+				)
 			},
 			{
 				path: '/calendar',
-				element: <Calendar />
+				element: (
+					<ProtectedRoute>
+						<Calendar />
+					</ProtectedRoute>
+				)
 			},
 			{
 				path: '/progress',
-				element: <Progress />
+				element: (
+					<ProtectedRoute>
+						<Progress />
+					</ProtectedRoute>
+				)
 			},
 			{
 				path: '/tasks',
-				element: <Tasks />
+				element: (
+					<ProtectedRoute>
+						<Tasks />
+					</ProtectedRoute>
+				)
 			},
 			{
 				path: '/admin',
-				element: <Admin />
+				element: (
+					<ProtectedRoute>
+						<Admin />
+					</ProtectedRoute>
+				)
 			}
 		]
 	}

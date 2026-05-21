@@ -32,6 +32,11 @@ const Login = () => {
             const data = await login(email, password);
 
             if (data.success) {
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(data.user)
+                );
+
                 navigate('/');
             } else {
                 alert(data.message); // updateModal
