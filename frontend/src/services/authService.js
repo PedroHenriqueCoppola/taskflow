@@ -7,7 +7,25 @@ export const login = async (email, password) => {
     formData.append('password', password);
 
     const response = await fetch(
-        `${API_BASE_URL}/login.php`,
+        `${API_BASE_URL}/auth/login.php`,
+        {
+            method: 'POST',
+            body: formData
+        }
+    );
+
+    return response.json();
+};
+
+export const register = async (name, email, password) => {
+    const formData = new FormData();
+
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+
+    const response = await fetch(
+        `${API_BASE_URL}/auth/register.php`,
         {
             method: 'POST',
             body: formData

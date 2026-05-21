@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
-require_once '../config/database.php';
+require_once '../../config/database.php';
 
 header('Content-Type: application/json');
 
@@ -33,9 +33,7 @@ $sql = <<<SQL
 SQL;
 
 $stmt = $conn->prepare($sql);
-
 $stmt->bind_param("s", $email);
-
 $stmt->execute();
 
 $result = $stmt->get_result();
