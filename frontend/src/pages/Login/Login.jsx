@@ -1,7 +1,10 @@
 import './Login.css';
+
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListTodo, Mail, Lock } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, IconBox, LinkText } from "../../styles/globalStyles";
+import { login } from '../../services/authService';
 
 import Card from "../../components/Card/Card";
 import Input from '../../components/Input/Input';
@@ -9,11 +12,35 @@ import Button from '../../components/Button/Button';
 
 const Login = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleLoginClick = () => {
-        // lógica de validação de dados
+    const handleLoginClick = async () => {
+        if (!email || !password) {
+            alert('Preencha todos os campos'); // updateModal
 
-        navigate('/');
+            return;
+        }
+
+        if (!email.includes('@')) {
+            alert('Digite um email válido'); // updateModal
+
+            return;
+        }
+
+        try {
+            const data = await login(email, password);
+
+            if (data.success) {
+                navigate('/');
+            } else {
+                alert(data.message); // updateModal
+            }
+        } catch (error) {
+            console.error(error);
+
+            alert('Erro ao realizar login'); // updateModal
+        }
     };
 
     return (
@@ -37,6 +64,8 @@ const Login = () => {
                         description="Email"
                         placeholder="seu@email.com"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <Input 
@@ -44,6 +73,8 @@ const Login = () => {
                         description="Senha"
                         placeholder="••••••••"
                         type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
 
                     <Button 

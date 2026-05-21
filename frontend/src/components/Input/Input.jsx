@@ -25,6 +25,8 @@ const Input = (props) => {
                     className="inputField"
                     placeholder={props.placeholder}
                     type={props.type}
+                    value={props.value}
+                    onChange={props.onChange}
                 />
             </div>
         </>
