@@ -1,0 +1,46 @@
+.profileModalApp {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.userImage {
+    background: none;
+    border: none;
+    padding: .8rem;
+    border-radius: 50%;
+    margin: 0;
+    width: 7rem;
+    height: 7rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--heavier-green);
+    background-color: var(--softer-green);
+}
+
+.profileHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profileName {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profileInfos {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profileLine {
+    border: 1px solid var(--softer-gray);
+}

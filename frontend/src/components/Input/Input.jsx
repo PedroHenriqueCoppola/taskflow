@@ -1,15 +1,14 @@
 import './Input.css';
 import styled from "styled-components";
 
+const InputText = styled.h3`
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+`;
 
 const Input = (props) => {
-    const InputText = styled.h3`
-        font-size: 1.4rem;
-        font-weight: 500;
-        color: var(--black);
-        text-decoration: none;
-    `;
-
     return (
         <>
             <InputText>{props.description}</InputText>

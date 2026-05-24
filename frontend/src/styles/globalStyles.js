@@ -24,6 +24,7 @@ export const GlobalStyle = createGlobalStyle`
 
         --white: #ffffff;
         --white-bg: #fcfdfcff;
+        --softer-gray: #f7f7f8;
         --gray: #6b7280;
         --heavier-gray: #6e7d91;
         --border-gray: #e5e7eb;
@@ -32,7 +33,10 @@ export const GlobalStyle = createGlobalStyle`
         --lighter-green: #41ad8b;
         --heavier-green: #2f7f60;
         --softer-green: #e8f7f3;
+        --button-red: #dc2828;
+        --darker-button-red: #e94545;
         --blocked-red: #d93b3b;
+        --faded-background: #00000073;;
     }
 
     body {

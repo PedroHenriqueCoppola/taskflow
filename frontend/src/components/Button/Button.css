@@ -1,6 +1,6 @@
 .Button {
-    color: var(--white);
-    background-color: var(--standard-green);
+    color: var(--button-color);
+    background-color: var(--button-bg);
 
     font-weight: 400;
     font-size: 1.4rem;
@@ -19,7 +19,7 @@
 
     &:hover {
         cursor: pointer;
-        background-color: var(--lighter-green);
+        background-color: var(--button-hover);
     }
 }
 

@@ -1,0 +1,26 @@
+.inputInfoContainer {
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #d1d5db;
+    border-radius: .8rem;
+
+    padding: 3rem 1.5rem;
+    height: 5rem;
+    width: 100%;
+    gap: .5rem;
+
+    background-color: var(--white-bg);
+}
+
+.icon {
+    margin-right: .5rem;
+    font-size: 1.8rem;
+    color: var(--gray);
+}
+
+.infos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
