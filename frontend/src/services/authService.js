@@ -34,3 +34,7 @@ export const register = async (name, email, password) => {
 
     return response.json();
 };
+
+export const logout = () => {
+    localStorage.removeItem('user');
+};
