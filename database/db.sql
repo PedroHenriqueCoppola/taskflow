@@ -23,7 +23,7 @@ CREATE TABLE TASKS (
     name VARCHAR(150) NOT NULL,
     description TEXT,
 
-    frequency ENUM('Diaria', 'Semanal', 'Mensal', 'Unica') DEFAULT 'Diaria',
+    frequency ENUM('daily', 'weekly', 'monthly', 'single') DEFAULT 'daily',
 
     time TIME,
 
