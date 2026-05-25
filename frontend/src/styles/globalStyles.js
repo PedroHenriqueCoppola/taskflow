@@ -63,6 +63,13 @@ export const MinorTitle = styled.h2 `
     color: var(--gray);
 `;
 
+export const InputText = styled.h3`
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+`;
+
 export const Description = styled.h5 `
     font-size: 1.2rem;
     font-weight: 400;

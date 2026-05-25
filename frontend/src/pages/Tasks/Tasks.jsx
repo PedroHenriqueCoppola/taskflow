@@ -2,12 +2,38 @@ import './Tasks.css';
 
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
+import { useState } from 'react';
 
 import Button from "../../components/Button/Button";
 import TaskBox from '../../components/TaskBox/TaskBox';
 import Tag from '../../components/Tag/Tag';
+import Modal from '../../components/Modal/Modal';
+import TaskModal from '../../components/Modals/TaskModal/TaskModal';
 
 const Tasks = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [frequency, setFrequency] = useState('daily');
+    const [time, setTime] = useState('');
+    const [monthDay, setMonthDay] = useState('');
+    const [selectedDays, setSelectedDays] = useState([]);
+
+    const resetTaskForm = () => {
+        setTitle('');
+        setDescription('');
+        setFrequency('daily');
+        setTime('');
+        setMonthDay('');
+        setSelectedDays([]);
+    };
+
+    const handleCloseModal = () => {
+        resetTaskForm();
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="tasksApp">
             <GlobalStyle />
@@ -22,8 +48,39 @@ const Tasks = () => {
                     height={40}
                     content="Nova tarefa"
                     icon={<Plus size={16} />}
+                    onClick={() => setIsModalOpen(true)}
                 />
             </div>
+
+            <Modal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                width={450}
+            >
+                <TaskModal
+                    modalTitle="Nova Tarefa"
+
+                    title={title}
+                    setTitle={setTitle}
+
+                    description={description}
+                    setDescription={setDescription}
+
+                    frequency={frequency}
+                    setFrequency={setFrequency}
+
+                    time={time}
+                    setTime={setTime}
+
+                    monthDay={monthDay}
+                    setMonthDay={setMonthDay}
+
+                    selectedDays={selectedDays}
+                    setSelectedDays={setSelectedDays}
+
+                    onClose={() => setIsModalOpen(false)}
+                />
+            </Modal>
 
             <div className="tasksBoxes">
                 <TaskBox

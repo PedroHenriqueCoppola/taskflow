@@ -25,7 +25,7 @@ const Header = ({ toggleSidebar }) => {
                 onClose={() => setIsModalOpen(false)}
                 width={450}
             >
-                <ProfileModal></ProfileModal>
+                <ProfileModal/>
             </Modal>
         </div>
     )

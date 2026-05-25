@@ -18,17 +18,9 @@ const Dashboard = () => {
         <div className='dashboardApp'>
             <GlobalStyle />
 
-            <div className="dashboardHeader">
-                <div className="dashboardTitle">
-                    <Title>Dashboard</Title>
-			        <SubTitle>Acompanhe suas tarefas do dia</SubTitle>
-                </div>
-
-                <Button
-                    height={40}
-                    content="Nova tarefa"
-                    icon={<Plus size={16} />}
-                />
+            <div className="dashboardTitle">
+                <Title>Dashboard</Title>
+                <SubTitle>Acompanhe suas tarefas do dia</SubTitle>
             </div>
 
             <div className="dashboardBoxes">

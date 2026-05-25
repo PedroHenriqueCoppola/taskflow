@@ -1,14 +1,6 @@
 import './InputInfo.css';
-import styled from "styled-components";
 
-import { Description } from "../../styles/globalStyles";
-
-const InputText = styled.h3`
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--black);
-    text-decoration: none;
-`;
+import { Description, InputText } from "../../styles/globalStyles";
 
 const InputInfo = (props) => {
     return (
