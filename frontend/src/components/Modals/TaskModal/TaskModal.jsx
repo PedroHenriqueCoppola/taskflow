@@ -72,7 +72,7 @@ const TaskModal = (props) => {
                             type="select"
                             options={frequencyOptions}
                             value={props.frequency}
-                            onChange={(e) => props.setFrequency(e.target.value)}
+                            onChange={(e) => props.handleFrequencyChange(e.target.value)}
                         />
                     </div>
 
@@ -125,8 +125,13 @@ const TaskModal = (props) => {
 
                 <Button
                     height={40}
-                    content="Criar tarefa"
+                    content={
+                        props.isCreatingTask
+                            ? 'Criando...'
+                            : 'Criar tarefa'
+                    }
                     onClick={props.handleCreateTask}
+                    disabled={props.isCreatingTask}
                 />
             </div>
         </div>

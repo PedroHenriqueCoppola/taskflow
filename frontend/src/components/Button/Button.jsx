@@ -9,7 +9,7 @@ const Button = (props) => {
     };
 
     return (
-        <button className='Button' style={buttonStyle} onClick={props.onClick}>
+        <button className='Button' style={buttonStyle} onClick={props.onClick} disabled={props.disabled}>
             {props.icon && (
                 <span className='buttonIcon'>
                     {props.icon}

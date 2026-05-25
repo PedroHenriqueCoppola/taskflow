@@ -2,8 +2,9 @@ import './Tasks.css';
 
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
-import { useState } from 'react';
-import { createTask } from '../../services/taskService';
+import { useState, useEffect } from 'react';
+import { createTask, getTasks } from '../../services/taskService';
+import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 
 import Button from "../../components/Button/Button";
 import TaskBox from '../../components/TaskBox/TaskBox';
@@ -21,6 +22,10 @@ const Tasks = () => {
     const [monthDay, setMonthDay] = useState('');
     const [selectedDays, setSelectedDays] = useState([]);
 
+    const [tasks, setTasks] = useState([]);
+
+    const [isCreatingTask, setIsCreatingTask] = useState(false);
+
     const resetTaskForm = () => {
         setTitle('');
         setDescription('');
@@ -36,7 +41,23 @@ const Tasks = () => {
     };
 
     const handleCreateTask = async () => {
+        const validationError = validateTaskForm({
+            title,
+            frequency,
+            selectedDays,
+            monthDay,
+            time
+        });
+
+        if (validationError) {
+            alert(validationError); // updateModal
+
+            return;
+        }
+
         try {
+            setIsCreatingTask(true);
+
             const user = JSON.parse(localStorage.getItem('user'));
 
             const taskData = {
@@ -45,7 +66,11 @@ const Tasks = () => {
                 description,
                 frequency,
                 time: time || null,
-                week_days: selectedDays.length ? selectedDays.join(',') : null,
+                week_days: selectedDays.length
+                    ? [...selectedDays]
+                        .sort((a, b) => a - b)
+                        .join(',')
+                    : null,
                 month_day: monthDay || null
             };
 
@@ -53,6 +78,8 @@ const Tasks = () => {
 
             if (data.success) {
                 alert(data.message); // updateModal
+
+                await fetchTasks();
 
                 handleCloseModal();
             } else {
@@ -62,6 +89,38 @@ const Tasks = () => {
             console.error(error);
 
             alert('Erro ao criar tarefa.'); // updateModal
+        } finally {
+            setIsCreatingTask(false);
+        }
+    };
+
+    const fetchTasks = async () => {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            const data = await getTasks(user.id);
+
+            if (data.success) {
+                setTasks(data.tasks);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
+
+    const handleFrequencyChange = (value) => {
+        setFrequency(value);
+
+        if (value !== 'weekly') {
+            setSelectedDays([]);
+        }
+
+        if (value !== 'monthly') {
+            setMonthDay('');
         }
     };
 
@@ -72,7 +131,9 @@ const Tasks = () => {
             <div className="tasksHeader">
                 <div className="tasksTitle">
                     <Title>Minhas tarefas</Title>
-			        <SubTitle>5 tarefas cadastradas</SubTitle>
+			        <SubTitle>
+                        {tasks.length} tarefa{tasks.length !== 1 ? 's' : ''} cadastrada{tasks.length !== 1 ? 's' : ''}
+                    </SubTitle>
                 </div>
 
                 <Button
@@ -111,94 +172,41 @@ const Tasks = () => {
 
                     onClose={handleCloseModal}
                     handleCreateTask={handleCreateTask}
+                    handleFrequencyChange={handleFrequencyChange}
+                    isCreatingTask={isCreatingTask}
                 />
             </Modal>
 
             <div className="tasksBoxes">
-                <TaskBox
-                    showActions={true}
-                    taskBoxTitle="Estudar React"
-                    description="Continuar o curso de React avançado"
-                    tags={
-                        <>
-                            <Tag
-                                icon={<RotateCcw size={14} />}
-                                content="Diária"
-                            />
+                {!tasks.length ? (
+                    <SubTitle>
+                        Nenhuma tarefa cadastrada ainda.
+                    </SubTitle>
+                ) : (
+                    tasks.map((task) => (
+                        <TaskBox
+                            key={task.id}
+                            showActions={true}
+                            taskBoxTitle={task.name}
+                            description={task.description}
+                            tags={
+                                <>
+                                    <Tag
+                                        icon={<RotateCcw size={14} />}
+                                        content={formatTaskFrequency(task)}
+                                    />
 
-                            <Tag
-                                icon={<Clock size={14} />}
-                                content="07:00"
-                            />
-                        </>
-                    }
-                />
-
-                <TaskBox
-                    showActions={true}
-                    taskBoxTitle="Exercício físico"
-                    description="30 minutos de caminhada ou academia"
-                    tags={
-                        <>
-                            <Tag
-                                icon={<RotateCcw size={14} />}
-                                content="Diária"
-                            />
-
-                            <Tag
-                                icon={<Clock size={14} />}
-                                content="22:00"
-                            />
-                        </>
-                    }
-                />
-
-                <TaskBox
-                    showActions={true}
-                    taskBoxTitle="Revisar finanças"
-                    description="Conferir gastos e orçamento do mês"
-                    tags={
-                        <>
-                            <Tag
-                                icon={<RotateCcw size={14} />}
-                                content="Semanal"
-                            />
-                        </>
-                    }
-                />
-
-                <TaskBox
-                    showActions={true}
-                    taskBoxTitle="Reunião de equipe"
-                    description="Alinhamento semanal com o time"
-                    tags={
-                        <>
-                            <Tag
-                                icon={<RotateCcw size={14} />}
-                                content="Semanal"
-                            />
-
-                            <Tag
-                                icon={<Clock size={14} />}
-                                content="09:00"
-                            />
-                        </>
-                    }
-                />
-
-                <TaskBox
-                    showActions={true}
-                    taskBoxTitle="Ler 20 páginas"
-                    description="Livro: Atomic Habits"
-                    tags={
-                        <>
-                            <Tag
-                                icon={<RotateCcw size={14} />}
-                                content="Diária"
-                            />
-                        </>
-                    }
-                />
+                                    {task.time && (
+                                        <Tag
+                                            icon={<Clock size={14} />}
+                                            content={task.time.slice(0, 5)}
+                                        />
+                                    )}
+                                </>
+                            }
+                        />
+                    ))
+                )}
             </div>
         </div>
     )

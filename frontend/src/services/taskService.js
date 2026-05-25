@@ -21,3 +21,11 @@ export const createTask = async (taskData) => {
 
     return response.json();
 };
+
+export const getTasks = async (userId) => {
+    const response = await fetch(
+        `${API_BASE_URL}/tasks/list.php?user_id=${userId}`
+    );
+
+    return response.json();
+};
