@@ -3,6 +3,7 @@ import './Tasks.css';
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState } from 'react';
+import { createTask } from '../../services/taskService';
 
 import Button from "../../components/Button/Button";
 import TaskBox from '../../components/TaskBox/TaskBox';
@@ -32,6 +33,36 @@ const Tasks = () => {
     const handleCloseModal = () => {
         resetTaskForm();
         setIsModalOpen(false);
+    };
+
+    const handleCreateTask = async () => {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            const taskData = {
+                user_id: user.id,
+                name: title,
+                description,
+                frequency,
+                time: time || null,
+                week_days: selectedDays.length ? selectedDays.join(',') : null,
+                month_day: monthDay || null
+            };
+
+            const data = await createTask(taskData);
+
+            if (data.success) {
+                alert(data.message); // updateModal
+
+                handleCloseModal();
+            } else {
+                alert(data.message); // updateModal
+            }
+        } catch (error) {
+            console.error(error);
+
+            alert('Erro ao criar tarefa.'); // updateModal
+        }
     };
 
     return (
@@ -78,7 +109,8 @@ const Tasks = () => {
                     selectedDays={selectedDays}
                     setSelectedDays={setSelectedDays}
 
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={handleCloseModal}
+                    handleCreateTask={handleCreateTask}
                 />
             </Modal>
 

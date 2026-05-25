@@ -11,7 +11,8 @@ const TaskModal = (props) => {
     const frequencyOptions = [
         { value: 'daily', label: 'Diária' },
         { value: 'weekly', label: 'Semanal' },
-        { value: 'monthly', label: 'Mensal' }
+        { value: 'monthly', label: 'Mensal' },
+        { value: 'single', label: 'Única' }
     ];
 
     const daysOfWeek = [
@@ -125,6 +126,7 @@ const TaskModal = (props) => {
                 <Button
                     height={40}
                     content="Criar tarefa"
+                    onClick={props.handleCreateTask}
                 />
             </div>
         </div>
