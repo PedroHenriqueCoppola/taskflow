@@ -24,7 +24,7 @@ const TaskBox = (props) => {
 
                     {props.showActions && (
                         <div className="editDetails">
-                            <button className="taskActionBtn btnBlock" title="Editar tarefa">
+                            <button className="taskActionBtn btnBlock" title="Editar tarefa" onClick={props.onEdit}>
                                 <PencilLine size={16} strokeWidth={1.5} />
                             </button>
 

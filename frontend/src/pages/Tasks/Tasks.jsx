@@ -3,7 +3,7 @@ import './Tasks.css';
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState, useEffect } from 'react';
-import { createTask, getTasks } from '../../services/taskService';
+import { createTask, getTasks, updateTask } from '../../services/taskService';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 
 import Button from "../../components/Button/Button";
@@ -25,6 +25,9 @@ const Tasks = () => {
     const [tasks, setTasks] = useState([]);
 
     const [isCreatingTask, setIsCreatingTask] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingTaskId, setEditingTaskId] = useState(null);
+    const [isUpdatingTask, setIsUpdatingTask] = useState(false);
 
     const resetTaskForm = () => {
         setTitle('');
@@ -37,6 +40,10 @@ const Tasks = () => {
 
     const handleCloseModal = () => {
         resetTaskForm();
+
+        setIsEditing(false);
+        setEditingTaskId(null);
+
         setIsModalOpen(false);
     };
 
@@ -94,6 +101,58 @@ const Tasks = () => {
         }
     };
 
+    const handleUpdateTask = async () => {
+        const validationError = validateTaskForm({
+            title,
+            frequency,
+            selectedDays,
+            monthDay,
+            time
+        });
+
+        if (validationError) {
+            alert(validationError);
+
+            return;
+        }
+
+        try {
+            setIsUpdatingTask(true);
+
+            const taskData = {
+                id: editingTaskId,
+                name: title,
+                description,
+                frequency,
+                time: time || null,
+                week_days: selectedDays.length
+                    ? [...selectedDays]
+                        .sort((a, b) => a - b)
+                        .join(',')
+                    : null,
+                month_day: monthDay || null
+            };
+
+            const data = await updateTask(taskData);
+
+            if (data.success) {
+                alert(data.message);
+
+                await fetchTasks();
+
+                handleCloseModal();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+
+            alert('Erro ao atualizar tarefa.');
+        } finally {
+            setIsUpdatingTask(false);
+        }
+    };
+
     const fetchTasks = async () => {
         try {
             const user = JSON.parse(localStorage.getItem('user'));
@@ -124,6 +183,40 @@ const Tasks = () => {
         }
     };
 
+    const handleOpenCreateModal = () => {
+        resetTaskForm();
+
+        setIsEditing(false);
+        setEditingTaskId(null);
+
+        setIsModalOpen(true);
+    };
+
+    const handleOpenEditModal = (task) => {
+        setTitle(task.name);
+        setDescription(task.description || '');
+
+        handleFrequencyChange(task.frequency);
+
+        setTime(task.time ? task.time.slice(0, 5) : '');
+
+        setMonthDay(task.month_day || '');
+
+        setSelectedDays(
+            task.week_days
+                ? task.week_days
+                    .split(',')
+                    .map(Number)
+                : []
+        );
+
+        setEditingTaskId(task.id);
+
+        setIsEditing(true);
+
+        setIsModalOpen(true);
+    };
+
     return (
         <div className="tasksApp">
             <GlobalStyle />
@@ -140,7 +233,7 @@ const Tasks = () => {
                     height={40}
                     content="Nova tarefa"
                     icon={<Plus size={16} />}
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={handleOpenCreateModal}
                 />
             </div>
 
@@ -150,7 +243,7 @@ const Tasks = () => {
                 width={450}
             >
                 <TaskModal
-                    modalTitle="Nova Tarefa"
+                    modalTitle={isEditing ? "Editar Tarefa" : "Nova Tarefa"}
 
                     title={title}
                     setTitle={setTitle}
@@ -172,8 +265,11 @@ const Tasks = () => {
 
                     onClose={handleCloseModal}
                     handleCreateTask={handleCreateTask}
+                    handleUpdateTask={handleUpdateTask}
                     handleFrequencyChange={handleFrequencyChange}
                     isCreatingTask={isCreatingTask}
+                    isEditing={isEditing}
+                    isUpdatingTask={isUpdatingTask}
                 />
             </Modal>
 
@@ -187,6 +283,7 @@ const Tasks = () => {
                         <TaskBox
                             key={task.id}
                             showActions={true}
+                            onEdit={() => handleOpenEditModal(task)}
                             taskBoxTitle={task.name}
                             description={task.description}
                             tags={

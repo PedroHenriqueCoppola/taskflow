@@ -126,12 +126,24 @@ const TaskModal = (props) => {
                 <Button
                     height={40}
                     content={
-                        props.isCreatingTask
-                            ? 'Criando...'
-                            : 'Criar tarefa'
+                        props.isEditing
+                            ? (
+                                props.isUpdatingTask
+                                    ? 'Salvando...'
+                                    : 'Salvar alterações'
+                            )
+                            : (
+                                props.isCreatingTask
+                                    ? 'Criando...'
+                                    : 'Criar tarefa'
+                            )
                     }
-                    onClick={props.handleCreateTask}
-                    disabled={props.isCreatingTask}
+                    onClick={
+                        props.isEditing
+                            ? props.handleUpdateTask
+                            : props.handleCreateTask
+                    }
+                    disabled={props.isCreatingTask || props.isUpdatingTask}
                 />
             </div>
         </div>
