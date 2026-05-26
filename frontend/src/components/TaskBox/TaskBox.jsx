@@ -28,7 +28,7 @@ const TaskBox = (props) => {
                                 <PencilLine size={16} strokeWidth={1.5} />
                             </button>
 
-                            <button className="taskActionBtn btnDelete" title="Excluir tarefa">
+                            <button className="taskActionBtn btnDelete" title="Excluir tarefa" onClick={props.onDelete}>
                                 <Trash2 size={16} strokeWidth={1.5} />
                             </button>
                         </div>

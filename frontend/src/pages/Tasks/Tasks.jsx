@@ -3,7 +3,7 @@ import './Tasks.css';
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState, useEffect } from 'react';
-import { createTask, getTasks, updateTask } from '../../services/taskService';
+import { createTask, getTasks, updateTask, deleteTask } from '../../services/taskService';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 
 import Button from "../../components/Button/Button";
@@ -28,6 +28,7 @@ const Tasks = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingTaskId, setEditingTaskId] = useState(null);
     const [isUpdatingTask, setIsUpdatingTask] = useState(false);
+    const [isDeletingTask, setIsDeletingTask] = useState(false);
 
     const resetTaskForm = () => {
         setTitle('');
@@ -142,7 +143,7 @@ const Tasks = () => {
 
                 handleCloseModal();
             } else {
-                alert(data.message);
+                alert(data.message); // updateModal
             }
         } catch (error) {
             console.error(error);
@@ -150,6 +151,36 @@ const Tasks = () => {
             alert('Erro ao atualizar tarefa.');
         } finally {
             setIsUpdatingTask(false);
+        }
+    };
+
+    const handleDeleteTask = async (taskId) => {
+        const confirmDelete = window.confirm(
+            'Tem certeza que deseja excluir esta tarefa?'
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            setIsDeletingTask(true);
+
+            const data = await deleteTask(taskId);
+
+            if (data.success) {
+                alert(data.message); // updateModal
+
+                await fetchTasks();
+            } else {
+                alert(data.message); // updateModal
+            }
+        } catch (error) {
+            console.error(error);
+
+            alert('Erro ao excluir tarefa.'); // updateModal
+        } finally {
+            setIsDeletingTask(false);
         }
     };
 
@@ -284,6 +315,7 @@ const Tasks = () => {
                             key={task.id}
                             showActions={true}
                             onEdit={() => handleOpenEditModal(task)}
+                            onDelete={() => handleDeleteTask(task.id)}
                             taskBoxTitle={task.name}
                             description={task.description}
                             tags={

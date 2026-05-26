@@ -51,3 +51,19 @@ export const updateTask = async (taskData) => {
 
     return response.json();
 };
+
+export const deleteTask = async (taskId) => {
+    const formData = new FormData();
+
+    formData.append('id', taskId);
+
+    const response = await fetch(
+        `${API_BASE_URL}/tasks/delete.php`,
+        {
+            method: 'POST',
+            body: formData
+        }
+    );
+
+    return response.json();
+};
