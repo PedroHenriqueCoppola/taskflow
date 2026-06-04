@@ -102,3 +102,56 @@ export const shouldShowTaskToday = (task) => {
             return false;
     }
 };
+
+export const shouldShowTaskThisWeek = (task) => {
+    const today = new Date();
+
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    switch (task.frequency) {
+        case 'daily':
+        case 'single':
+            return true;
+
+        case 'weekly': {
+            const selectedDays = task.week_days
+                ?.split(',')
+                .map(Number);
+
+            return selectedDays?.length > 0;
+        }
+
+        case 'monthly': {
+            const monthDay = Number(task.month_day);
+
+            const currentDay = today.getDay();
+
+            const diffToMonday =
+                currentDay === 0
+                    ? -6
+                    : 1 - currentDay;
+
+            const monday = new Date(today);
+            monday.setDate(today.getDate() + diffToMonday);
+
+            for (let i = 0; i < 7; i++) {
+                const day = new Date(monday);
+
+                day.setDate(monday.getDate() + i);
+
+                if (day.getDate() === monthDay) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        default:
+            return false;
+    }
+};

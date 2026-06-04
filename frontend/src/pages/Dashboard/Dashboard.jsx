@@ -3,7 +3,11 @@ import './Dashboard.css';
 import { useState, useEffect } from "react";
 import { Plus, Clock, CircleCheckBig, TrendingUp, RotateCcw } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, MinorTitle } from "../../styles/globalStyles";
-import { formatTaskFrequency, shouldShowTaskToday } from "../../utils/taskHelpers";
+import {
+    formatTaskFrequency,
+    shouldShowTaskToday,
+    shouldShowTaskThisWeek
+} from "../../utils/taskHelpers";
 import { getTasks, getCompletions, completeTask, uncompleteTask } from "../../services/taskService"
 
 import Button from '../../components/Button/Button';
@@ -53,8 +57,21 @@ const Dashboard = () => {
         loadData();
     }, []);
 
-    // Constantes para os filtros
-    const filteredTasks = tasks.filter(shouldShowTaskToday);
+    const filteredTasks = tasks.filter(task => {
+        switch (activeFilter) {
+            case 'today':
+                return shouldShowTaskToday(task);
+
+            case 'week':
+                return shouldShowTaskThisWeek(task);
+
+            case 'month':
+                return true;
+
+            default:
+                return false;
+        }
+    });
 
     // Lógica de amostragem das tarefas pendentes
     const pendingTasks = tasks.length - completions.length;
