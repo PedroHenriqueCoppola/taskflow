@@ -101,3 +101,11 @@ export const uncompleteTask = async (taskId, userId) => {
 
     return response.json();
 };
+
+export const getCompletions = async (userId) => {
+    const response = await fetch(
+        `${API_BASE_URL}/completions/list.php?user_id=${userId}`
+    );
+
+    return response.json();
+};
