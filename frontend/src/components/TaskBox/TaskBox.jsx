@@ -1,19 +1,26 @@
 import './TaskBox.css';
 
 import { Title, Description } from "../../styles/globalStyles";
-import { PencilLine, Trash2 } from "lucide-react";
+import { Check, PencilLine, Trash2 } from "lucide-react";
 
 const TaskBox = (props) => {
     return (
-        <div className='taskBox'>
+        <div className={`taskBox ${props.isCompleted ? 'completed' : ''}`}>
             <div className="taskBoxCheck">
-                <button className="checkButton"></button>
+                <button
+                    className={`checkButton ${props.isCompleted ? 'completed' : ''}`}
+                    onClick={props.onToggleComplete}
+                >
+                    {!!props.isCompleted && (
+                        <Check size={14} strokeWidth={3} />
+                    )}
+                </button>
             </div>
 
             <div className="taskBoxContent">
                 <div className="taskBoxDetails">
                     <div>
-                        <Title fontSize="1.4rem" fontWeight="600">
+                        <Title fontSize="1.4rem" fontWeight="600" className={props.isCompleted ? 'completedTitle' : ''}>
                             {props.taskBoxTitle}
                         </Title>
 

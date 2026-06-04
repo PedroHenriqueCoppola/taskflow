@@ -28,23 +28,22 @@ if (!$userId) {
     exit;
 }
 
-$sql = "
-    SELECT
-        id,
-        name,
-        description,
-        frequency,
-        time,
-        week_days,
-        month_day,
-        single_date,
-        is_active,
-        created_at
-    FROM TASKS
-    WHERE user_id = ?
-    AND is_active = 1
-    ORDER BY created_at DESC
-";
+$sql = <<<SQL
+    SELECT 
+        TK.*,
+        CASE
+            WHEN TC.id IS NOT NULL THEN 1
+            ELSE 0
+        END AS is_completed
+    FROM TASKS TK 
+    LEFT JOIN 
+        TASKCOMPLETIONS TC ON TC.task_id = TK.id AND TC.occurrence_date = CURDATE()
+    WHERE 
+        TK.user_id = ?
+        AND TK.is_active = 1
+    ORDER BY 
+        TK.created_at DESC
+SQL;
 
 $stmt = $conn->prepare($sql);
 

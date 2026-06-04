@@ -24,6 +24,10 @@
     visibility: visible;
 }
 
+.taskBox.completed {
+    opacity: 0.8;
+}
+
 .checkButton {
     width: 2.5rem;
     height: 2.5rem;
@@ -33,6 +37,10 @@
     border: 2px solid var(--border-gray);
     background-color: transparent;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
 
     transition: all 0.2s ease;
@@ -40,6 +48,19 @@
 
 .checkButton:hover {
     border-color: var(--standard-green);
+}
+
+.checkButton.completed {
+    background: var(--standard-green);
+    border-color: var(--standard-green);
+
+    color: white;
+}
+
+.completedTitle {
+    text-decoration: line-through;
+
+    color: #94a3b8;
 }
 
 .taskBoxContent {

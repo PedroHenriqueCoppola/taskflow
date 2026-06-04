@@ -3,7 +3,14 @@ import './Tasks.css';
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState, useEffect } from 'react';
-import { createTask, getTasks, updateTask, deleteTask } from '../../services/taskService';
+import { 
+    createTask,
+    getTasks,
+    updateTask,
+    deleteTask,
+    completeTask,
+    uncompleteTask
+} from '../../services/taskService';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 
 import Button from "../../components/Button/Button";
@@ -184,6 +191,22 @@ const Tasks = () => {
         }
     };
 
+    const handleToggleTask = async (task) => {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (task.is_completed) {
+                await uncompleteTask(task.id, user.id);
+            } else {
+                await completeTask(task.id, user.id);
+            }
+
+            await fetchTasks();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const fetchTasks = async () => {
         try {
             const user = JSON.parse(localStorage.getItem('user'));
@@ -316,6 +339,8 @@ const Tasks = () => {
                             showActions={true}
                             onEdit={() => handleOpenEditModal(task)}
                             onDelete={() => handleDeleteTask(task.id)}
+                            onToggleComplete={() => handleToggleTask(task)}
+                            isCompleted={task.is_completed}
                             taskBoxTitle={task.name}
                             description={task.description}
                             tags={

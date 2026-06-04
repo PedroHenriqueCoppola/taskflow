@@ -67,3 +67,37 @@ export const deleteTask = async (taskId) => {
 
     return response.json();
 };
+
+export const completeTask = async (taskId, userId) => {
+    const formData = new FormData();
+
+    formData.append('task_id', taskId);
+    formData.append('user_id', userId);
+
+    const response = await fetch(
+        `${API_BASE_URL}/tasks/complete.php`,
+        {
+            method: 'POST',
+            body: formData
+        }
+    );
+
+    return response.json();
+};
+
+export const uncompleteTask = async (taskId, userId) => {
+    const formData = new FormData();
+
+    formData.append('task_id', taskId);
+    formData.append('user_id', userId);
+
+    const response = await fetch(
+        `${API_BASE_URL}/tasks/uncomplete.php`,
+        {
+            method: 'POST',
+            body: formData
+        }
+    );
+
+    return response.json();
+};
