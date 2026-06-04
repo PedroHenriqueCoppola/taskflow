@@ -6,7 +6,8 @@ import { GlobalStyle, Title, SubTitle, MinorTitle } from "../../styles/globalSty
 import {
     formatTaskFrequency,
     shouldShowTaskToday,
-    shouldShowTaskThisWeek
+    shouldShowTaskThisWeek,
+    shouldShowTaskThisMonth
 } from "../../utils/taskHelpers";
 import { getTasks, getCompletions, completeTask, uncompleteTask } from "../../services/taskService"
 
@@ -66,7 +67,7 @@ const Dashboard = () => {
                 return shouldShowTaskThisWeek(task);
 
             case 'month':
-                return true;
+                return shouldShowTaskThisMonth(task);
 
             default:
                 return false;

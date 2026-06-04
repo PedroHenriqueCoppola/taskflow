@@ -155,3 +155,16 @@ export const shouldShowTaskThisWeek = (task) => {
             return false;
     }
 };
+
+export const shouldShowTaskThisMonth = (task) => {
+    switch (task.frequency) {
+        case 'daily':
+        case 'weekly':
+        case 'monthly':
+        case 'single':
+            return true;
+
+        default:
+            return false;
+    }
+};
