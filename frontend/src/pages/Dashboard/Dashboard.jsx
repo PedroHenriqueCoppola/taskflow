@@ -74,33 +74,32 @@ const Dashboard = () => {
         }
     });
 
-    // Lógica de amostragem das tarefas pendentes
-    const pendingTasks = tasks.length - completions.length;
-
-    // Lógica de amostragem das concluídas hoje
-    const today = new Date().toISOString().split('T')[0];
-
-    const completedToday = completions.filter(
-        completion => completion.occurrence_date === today
-    ).length;
-
-    // Lógica de amostragem da taxa de conclusão
-    const completionRate =
-        tasks.length
-            ? Math.round((completions.length / tasks.length) * 100)
-            : 0;
-
-    // Lista de tarefas pendentes
     const completedTaskIds = completions.map(completion => completion.task_id);
 
     const pendingTasksList = filteredTasks.filter(
         task => !completedTaskIds.includes(task.id)
     );
 
-    // Lista de tarefas concluídas
     const completedTasksList = filteredTasks.filter(
         task => completedTaskIds.includes(task.id)
     );
+
+    // Lógica de amostragem das tarefas pendentes
+    const pendingTasks = pendingTasksList.length;
+
+    // Lógica de amostragem das concluídas
+    const completedToday = completedTasksList.length;
+
+    // Lógica de amostragem da taxa de conclusão
+    const completionRate =
+        filteredTasks.length
+            ? Math.round(
+                (
+                    completedTasksList.length /
+                    filteredTasks.length
+                ) * 100
+            )
+            : 0;
 
     const handleToggleTask = async (task) => {
         try {
