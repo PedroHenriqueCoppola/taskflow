@@ -119,6 +119,12 @@ const Dashboard = () => {
         }
     };
 
+    const completedLabel = {
+        today: 'Concluídas Hoje',
+        week: 'Concluídas na Semana',
+        month: 'Concluídas no Mês'
+    };
+
     return (
         <div className='dashboardApp'>
             <GlobalStyle />
@@ -138,7 +144,7 @@ const Dashboard = () => {
 
                 <InfoBox
                     boxIcon={<CircleCheckBig size={16}/>}
-                    boxTitle="Concluídas Hoje"
+                    boxTitle={completedLabel[activeFilter]}
                     boxMinorTitle={completedToday}
                     description="tarefas finalizadas"
                 />
@@ -204,34 +210,36 @@ const Dashboard = () => {
                 ))}
             </div>
 
-            <div className="dashboardConcludedTasks">
-                <MinorTitle fontSize="1.2rem" letterSpacing="1px">CONCLUÍDAS</MinorTitle>
+            {completedTasksList.length > 0 && (
+                <div className="dashboardConcludedTasks">
+                    <MinorTitle fontSize="1.2rem" letterSpacing="1px">CONCLUÍDAS</MinorTitle>
 
-                {completedTasksList.map(task => (
-                    <TaskBox
-                        key={task.id}
-                        taskBoxTitle={task.name}
-                        description={task.description}
-                        onToggleComplete={() => handleToggleTask(task)}
-                        isCompleted={true}
-                        tags={
-                            <>
-                                <Tag
-                                    icon={<RotateCcw size={14} />}
-                                    content={formatTaskFrequency(task)}
-                                />
-
-                                {task.time && (
+                    {completedTasksList.map(task => (
+                        <TaskBox
+                            key={task.id}
+                            taskBoxTitle={task.name}
+                            description={task.description}
+                            onToggleComplete={() => handleToggleTask(task)}
+                            isCompleted={true}
+                            tags={
+                                <>
                                     <Tag
-                                        icon={<Clock size={14} />}
-                                        content={task.time.slice(0, 5)}
+                                        icon={<RotateCcw size={14} />}
+                                        content={formatTaskFrequency(task)}
                                     />
-                                )}
-                            </>
-                        }
-                    />
-                ))}
-            </div>
+
+                                    {task.time && (
+                                        <Tag
+                                            icon={<Clock size={14} />}
+                                            content={task.time.slice(0, 5)}
+                                        />
+                                    )}
+                                </>
+                            }
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
