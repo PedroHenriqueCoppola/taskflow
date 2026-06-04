@@ -3,7 +3,7 @@ import './Dashboard.css';
 import { useState, useEffect } from "react";
 import { Plus, Clock, CircleCheckBig, TrendingUp, RotateCcw } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, MinorTitle } from "../../styles/globalStyles";
-import { formatTaskFrequency } from "../../utils/taskHelpers";
+import { formatTaskFrequency, shouldShowTaskToday } from "../../utils/taskHelpers";
 import { getTasks, getCompletions, completeTask, uncompleteTask } from "../../services/taskService"
 
 import Button from '../../components/Button/Button';
@@ -53,6 +53,9 @@ const Dashboard = () => {
         loadData();
     }, []);
 
+    // Constantes para os filtros
+    const filteredTasks = tasks.filter(shouldShowTaskToday);
+
     // Lógica de amostragem das tarefas pendentes
     const pendingTasks = tasks.length - completions.length;
 
@@ -72,12 +75,12 @@ const Dashboard = () => {
     // Lista de tarefas pendentes
     const completedTaskIds = completions.map(completion => completion.task_id);
 
-    const pendingTasksList = tasks.filter(
+    const pendingTasksList = filteredTasks.filter(
         task => !completedTaskIds.includes(task.id)
     );
 
     // Lista de tarefas concluídas
-    const completedTasksList = tasks.filter(
+    const completedTasksList = filteredTasks.filter(
         task => completedTaskIds.includes(task.id)
     );
 

@@ -77,3 +77,28 @@ export const validateTaskForm = ({
 
     return null;
 };
+
+export const shouldShowTaskToday = (task) => {
+    const today = new Date();
+
+    const currentDayOfWeek = today.getDay();
+    const currentDayOfMonth = today.getDate();
+
+    switch (task.frequency) {
+        case 'daily':
+        case 'single':
+            return true;
+
+        case 'weekly':
+            return task.week_days
+                ?.split(',')
+                .map(Number)
+                .includes(currentDayOfWeek);
+
+        case 'monthly':
+            return Number(task.month_day) === currentDayOfMonth;
+
+        default:
+            return false;
+    }
+};
