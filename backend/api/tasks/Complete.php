@@ -29,6 +29,36 @@ if (!$taskId || !$userId) {
     exit;
 }
 
+$checkSql = <<<SQL
+    SELECT id
+    FROM TASKCOMPLETIONS
+    WHERE
+        task_id = ?
+        AND user_id = ?
+        AND occurrence_date = CURDATE()
+SQL;
+
+$checkStmt = $conn->prepare($checkSql);
+
+$checkStmt->bind_param(
+    "ii",
+    $taskId,
+    $userId
+);
+
+$checkStmt->execute();
+
+$result = $checkStmt->get_result();
+
+if ($result->num_rows > 0) {
+    echo json_encode([
+        "success" => true,
+        "message" => "Tarefa já concluída."
+    ]);
+
+    exit;
+}
+
 $sql = <<<SQL
     INSERT INTO TASKCOMPLETIONS (
         task_id,

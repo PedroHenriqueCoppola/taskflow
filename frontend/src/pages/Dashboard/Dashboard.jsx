@@ -7,7 +7,8 @@ import {
     formatTaskFrequency,
     shouldShowTaskToday,
     shouldShowTaskThisWeek,
-    shouldShowTaskThisMonth
+    shouldShowTaskThisMonth,
+    isTaskCompletedForCurrentOccurrence
 } from "../../utils/taskHelpers";
 import { getTasks, getCompletions, completeTask, uncompleteTask } from "../../services/taskService"
 
@@ -74,14 +75,12 @@ const Dashboard = () => {
         }
     });
 
-    const completedTaskIds = completions.map(completion => completion.task_id);
-
     const pendingTasksList = filteredTasks.filter(
-        task => !completedTaskIds.includes(task.id)
+        task => !isTaskCompletedForCurrentOccurrence(task, completions)
     );
 
     const completedTasksList = filteredTasks.filter(
-        task => completedTaskIds.includes(task.id)
+        task => isTaskCompletedForCurrentOccurrence(task, completions)
     );
 
     // Lógica de amostragem das tarefas pendentes
@@ -103,11 +102,10 @@ const Dashboard = () => {
 
     const handleToggleTask = async (task) => {
         try {
-            const user = JSON.parse(
-                localStorage.getItem('user')
-            );
+            const user = JSON.parse(localStorage.getItem('user'));
+            const isCompleted = isTaskCompletedForCurrentOccurrence(task, completions);
 
-            if (completedTaskIds.includes(task.id)) {
+            if (isCompleted) {
                 await uncompleteTask(task.id, user.id);
             } else {
                 await completeTask(task.id, user.id);

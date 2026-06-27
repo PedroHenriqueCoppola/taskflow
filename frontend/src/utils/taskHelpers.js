@@ -248,3 +248,49 @@ export const shouldShowTaskThisMonth = (task) => {
             return false;
     }
 };
+
+const getTaskCompletions = (task, completions) => {
+    return completions.filter(
+        completion => completion.task_id === task.id
+    );
+};
+
+const formatDateToTaskComparison = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+};
+
+const isDailyOrWeeklyOrMonthlyTaskCompleted = (task, completions) => {
+    const today = formatDateToTaskComparison(new Date());
+    const taskCompletions = getTaskCompletions(task, completions);
+
+    return taskCompletions.some(completion => completion.occurrence_date === today);
+};
+
+const isSingleTaskCompleted = (task, completions) => {
+    const taskCompletions = getTaskCompletions(task, completions);
+
+    return taskCompletions.length > 0;
+}
+
+export const isTaskCompletedForCurrentOccurrence = (task, completions) => {
+    switch (task.frequency) {
+        case 'daily':
+            return isDailyOrWeeklyOrMonthlyTaskCompleted(task, completions);
+
+        case 'weekly':
+            return isDailyOrWeeklyOrMonthlyTaskCompleted(task, completions);
+
+        case 'monthly':
+            return isDailyOrWeeklyOrMonthlyTaskCompleted(task, completions);
+
+        case 'single':
+            return isSingleTaskCompleted(task, completions);
+
+        default:
+            return false;
+    }
+};
