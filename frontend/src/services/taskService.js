@@ -10,6 +10,7 @@ export const createTask = async (taskData) => {
     formData.append('time', taskData.time);
     formData.append('week_days', taskData.week_days);
     formData.append('month_day', taskData.month_day);
+    formData.append('single_date', taskData.single_date);
 
     const response = await fetch(
         `${API_BASE_URL}/tasks/create.php`,
@@ -40,6 +41,7 @@ export const updateTask = async (taskData) => {
     formData.append('time', taskData.time);
     formData.append('week_days', taskData.week_days);
     formData.append('month_day', taskData.month_day);
+    formData.append('single_date', taskData.single_date);
 
     const response = await fetch(
         `${API_BASE_URL}/tasks/update.php`,

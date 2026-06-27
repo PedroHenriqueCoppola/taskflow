@@ -8,6 +8,16 @@ export const weekDaysMap = {
     6: 'Sáb'
 };
 
+export const formatDate = (dateString) => {
+    if (!dateString) {
+        return '';
+    }
+
+    const [year, month, day] = dateString.split('-');
+
+    return `${day}/${month}/${year}`;
+};
+
 export const formatTaskFrequency = (task) => {
     if (task.frequency === 'daily') {
         return 'Diária';
@@ -30,7 +40,9 @@ export const formatTaskFrequency = (task) => {
         return `Mensal • Dia ${task.month_day}`;
     }
 
-    return 'Única';
+    if (task.frequency === 'single') {
+        return `Única • ${formatDate(task.single_date)}`;
+    }
 };
 
 export const validateTaskForm = ({
@@ -83,6 +95,63 @@ export const validateTaskForm = ({
     return null;
 };
 
+export const isDateToday = (dateString) => {
+    if (!dateString) {
+        return false;
+    }
+
+    const today = new Date();
+    const date = new Date(dateString);
+
+    return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+    );
+};
+
+export const isDateInCurrentWeek = (dateString) => {
+    if (!dateString) {
+        return false;
+    }
+
+    const today = new Date();
+
+    const currentDay = today.getDay();
+
+    const diffToMonday =
+        currentDay === 0
+            ? -6
+            : 1 - currentDay;
+
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+
+    monday.setHours(0, 0, 0, 0);
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23, 59, 59, 999);
+
+    const taskDate = new Date(dateString);
+
+    return taskDate >= monday && taskDate <= sunday;
+};
+
+export const isDateInCurrentMonth = (dateString) => {
+    if (!dateString) {
+        return false;
+    }
+
+    const today = new Date();
+    const taskDate = new Date(dateString);
+
+    return (
+        taskDate.getMonth() === today.getMonth() &&
+        taskDate.getFullYear() === today.getFullYear()
+    );
+};
+
 export const shouldShowTaskToday = (task) => {
     const today = new Date();
 
@@ -91,8 +160,10 @@ export const shouldShowTaskToday = (task) => {
 
     switch (task.frequency) {
         case 'daily':
-        case 'single':
             return true;
+
+        case 'single':
+            return isDateToday(task.single_date);
 
         case 'weekly':
             return task.week_days
@@ -119,8 +190,10 @@ export const shouldShowTaskThisWeek = (task) => {
 
     switch (task.frequency) {
         case 'daily':
-        case 'single':
             return true;
+
+        case 'single':
+            return isDateInCurrentWeek(task.single_date);
 
         case 'weekly': {
             const selectedDays = task.week_days
@@ -166,8 +239,10 @@ export const shouldShowTaskThisMonth = (task) => {
         case 'daily':
         case 'weekly':
         case 'monthly':
-        case 'single':
             return true;
+
+        case 'single':
+            return isDateInCurrentMonth(task.single_date);
 
         default:
             return false;
