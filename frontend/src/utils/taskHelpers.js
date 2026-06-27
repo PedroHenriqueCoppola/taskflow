@@ -38,6 +38,7 @@ export const validateTaskForm = ({
     frequency,
     selectedDays,
     monthDay,
+    singleDate,
     time
 }) => {
     if (!title.trim()) {
@@ -69,6 +70,10 @@ export const validateTaskForm = ({
         if (parsedMonthDay < 1 || parsedMonthDay > 31) {
             return 'O dia do mês deve ser entre 1 e 31.';
         }
+    }
+
+    if (frequency === 'single' && !singleDate) {
+        return 'Selecione uma data.';
     }
 
     if (time && !/^([01]\d|2[0-3]):([0-5]\d)$/.test(time)) {

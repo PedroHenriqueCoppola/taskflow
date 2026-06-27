@@ -115,6 +115,15 @@ const TaskModal = (props) => {
                         onChange={(e) => props.setMonthDay(e.target.value)}
                     />
                 )}
+
+                {props.frequency === "single" && (
+                    <Input
+                        description="Data"
+                        type="date"
+                        value={props.singleDate}
+                        onChange={(e) => props.setSingleDate(e.target.value)}
+                    />
+                )}
             </div>
 
             <div className="taskModalButtons">

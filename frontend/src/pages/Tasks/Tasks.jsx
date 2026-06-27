@@ -27,6 +27,7 @@ const Tasks = () => {
     const [frequency, setFrequency] = useState('daily');
     const [time, setTime] = useState('');
     const [monthDay, setMonthDay] = useState('');
+    const [singleDate, setSingleDate] = useState('');
     const [selectedDays, setSelectedDays] = useState([]);
 
     const [tasks, setTasks] = useState([]);
@@ -43,6 +44,7 @@ const Tasks = () => {
         setFrequency('daily');
         setTime('');
         setMonthDay('');
+        setSingleDate('');
         setSelectedDays([]);
     };
 
@@ -61,6 +63,7 @@ const Tasks = () => {
             frequency,
             selectedDays,
             monthDay,
+            singleDate,
             time
         });
 
@@ -86,7 +89,8 @@ const Tasks = () => {
                         .sort((a, b) => a - b)
                         .join(',')
                     : null,
-                month_day: monthDay || null
+                month_day: monthDay || null,
+                single_date: singleDate || null
             };
 
             const data = await createTask(taskData);
@@ -115,6 +119,7 @@ const Tasks = () => {
             frequency,
             selectedDays,
             monthDay,
+            singleDate,
             time
         });
 
@@ -138,7 +143,8 @@ const Tasks = () => {
                         .sort((a, b) => a - b)
                         .join(',')
                     : null,
-                month_day: monthDay || null
+                month_day: monthDay || null,
+                single_date: singleDate || null
             };
 
             const data = await updateTask(taskData);
@@ -235,6 +241,10 @@ const Tasks = () => {
         if (value !== 'monthly') {
             setMonthDay('');
         }
+
+        if (value !== 'single') {
+            setSingleDate('');
+        }
     };
 
     const handleOpenCreateModal = () => {
@@ -255,6 +265,8 @@ const Tasks = () => {
         setTime(task.time ? task.time.slice(0, 5) : '');
 
         setMonthDay(task.month_day || '');
+
+        setSingleDate(task.single_date || '');
 
         setSelectedDays(
             task.week_days
@@ -313,6 +325,9 @@ const Tasks = () => {
 
                     monthDay={monthDay}
                     setMonthDay={setMonthDay}
+
+                    singleDate={singleDate}
+                    setSingleDate={setSingleDate}
 
                     selectedDays={selectedDays}
                     setSelectedDays={setSelectedDays}

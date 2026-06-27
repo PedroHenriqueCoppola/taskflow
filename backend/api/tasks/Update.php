@@ -24,6 +24,7 @@ $frequency = $_POST['frequency'] ?? '';
 $time = $_POST['time'] ?: null;
 $weekDays = $_POST['week_days'] ?: null;
 $monthDay = $_POST['month_day'] ?: null;
+$singleDate = $_POST['single_date'] ?? null;
 
 if (!$id || !$name || !$frequency) {
     echo json_encode([
@@ -42,20 +43,22 @@ $sql = "
         frequency = ?,
         time = ?,
         week_days = ?,
-        month_day = ?
+        month_day = ?,
+        single_date = ?
     WHERE id = ?
 ";
 
 $stmt = $conn->prepare($sql);
 
 $stmt->bind_param(
-    "ssssssi",
+    "sssssssi",
     $name,
     $description,
     $frequency,
     $time,
     $weekDays,
     $monthDay,
+    $singleDate,
     $id
 );
 
