@@ -3,11 +3,6 @@ import './Tasks.css';
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState } from 'react';
-import {
-    createTask,
-    updateTask,
-    deleteTask
-} from '../../services/taskService';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 
 import Button from "../../components/Button/Button";
@@ -30,8 +25,10 @@ const Tasks = () => {
 
     const {
         tasks,
-        fetchTasksData,
-        toggleTask
+        toggleTask,
+        createNewTask,
+        updateExistingTask,
+        deleteExistingTask
     } = useTasks();
 
     const [isCreatingTask, setIsCreatingTask] = useState(false);
@@ -95,12 +92,10 @@ const Tasks = () => {
                 single_date: singleDate || null
             };
 
-            const data = await createTask(taskData);
+            const data = await createNewTask(taskData);
 
             if (data.success) {
                 alert(data.message); // updateModal
-
-                await fetchTasksData();
 
                 handleCloseModal();
             } else {
@@ -149,12 +144,10 @@ const Tasks = () => {
                 single_date: singleDate || null
             };
 
-            const data = await updateTask(taskData);
+            const data = await updateExistingTask(taskData);
 
             if (data.success) {
                 alert(data.message);
-
-                await fetchTasksData();
 
                 handleCloseModal();
             } else {
@@ -181,12 +174,10 @@ const Tasks = () => {
         try {
             setIsDeletingTask(true);
 
-            const data = await deleteTask(taskId);
+            const data = await deleteExistingTask(taskId);
 
             if (data.success) {
                 alert(data.message); // updateModal
-
-                await fetchTasksData();
             } else {
                 alert(data.message); // updateModal
             }

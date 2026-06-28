@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-
 import {
     getTasks,
     getCompletions,
+    createTask,
+    updateTask,
+    deleteTask,
     completeTask,
     uncompleteTask
 } from "../services/taskService";
-
-import {
-    isTaskCompletedForCurrentOccurrence
-} from "../utils/taskHelpers";
+import { isTaskCompletedForCurrentOccurrence } from "../utils/taskHelpers";
 
 const useTasks = () => {
     const [tasks, setTasks] = useState([]);
@@ -29,17 +28,15 @@ const useTasks = () => {
                 ]);
 
             if (tasksData.success && completionsData.success) {
-                const tasksWithStatus =
-                    tasksData.tasks.map(task => ({
-                        ...task,
-                        isCompleted:
-                            isTaskCompletedForCurrentOccurrence(
-                                task,
-                                completionsData.completions
-                            )
-                    }));
+                const mappedTasks = tasksData.tasks.map(task => ({
+                    ...task,
+                    isCompleted: isTaskCompletedForCurrentOccurrence(
+                        task,
+                        completionsData.completions
+                    )
+                }));
 
-                setTasks(tasksWithStatus);
+                setTasks(mappedTasks);
                 setCompletions(completionsData.completions);
             }
         } catch (error) {
@@ -71,12 +68,45 @@ const useTasks = () => {
         }
     };
 
+    const createNewTask = async (taskData) => {
+        const response = await createTask(taskData);
+
+        if (response.success) {
+            await fetchTasksData();
+        }
+
+        return response;
+    };
+
+    const updateExistingTask = async (taskData) => {
+        const response = await updateTask(taskData);
+
+        if (response.success) {
+            await fetchTasksData();
+        }
+
+        return response;
+    };
+
+    const deleteExistingTask = async (taskId) => {
+        const response = await deleteTask(taskId);
+
+        if (response.success) {
+            await fetchTasksData();
+        }
+
+        return response;
+    };
+
     return {
         tasks,
         completions,
         loading,
         fetchTasksData,
-        toggleTask
+        toggleTask,
+        createNewTask,
+        updateExistingTask,
+        deleteExistingTask
     };
 };
 

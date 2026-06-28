@@ -7,8 +7,7 @@ import {
     formatTaskFrequency,
     shouldShowTaskToday,
     shouldShowTaskThisWeek,
-    shouldShowTaskThisMonth,
-    isTaskCompletedForCurrentOccurrence
+    shouldShowTaskThisMonth
 } from "../../utils/taskHelpers";
 
 import Button from '../../components/Button/Button';
@@ -24,7 +23,6 @@ const Dashboard = () => {
 
     const {
         tasks,
-        completions,
         toggleTask
     } = useTasks();
 
@@ -44,19 +42,11 @@ const Dashboard = () => {
         }
     });
 
-    const dashboardTasks = filteredTasks.map(task => ({
-        ...task,
-        isCompleted: isTaskCompletedForCurrentOccurrence(
-            task,
-            completions
-        )
-    }));
-
-    const pendingTasksList = dashboardTasks.filter(
+    const pendingTasksList = filteredTasks.filter(
         task => !task.isCompleted
     );
 
-    const completedTasksList = dashboardTasks.filter(
+    const completedTasksList = filteredTasks.filter(
         task => task.isCompleted
     );
 
