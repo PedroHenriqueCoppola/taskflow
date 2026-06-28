@@ -2,14 +2,11 @@ import './Tasks.css';
 
 import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
-import { useState, useEffect } from 'react';
-import { 
+import { useState } from 'react';
+import {
     createTask,
-    getTasks,
     updateTask,
-    deleteTask,
-    completeTask,
-    uncompleteTask
+    deleteTask
 } from '../../services/taskService';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 
@@ -18,6 +15,7 @@ import TaskBox from '../../components/TaskBox/TaskBox';
 import Tag from '../../components/Tag/Tag';
 import Modal from '../../components/Modal/Modal';
 import TaskModal from '../../components/Modals/TaskModal/TaskModal';
+import useTasks from '../../hooks/useTasks';
 
 const Tasks = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +28,11 @@ const Tasks = () => {
     const [singleDate, setSingleDate] = useState('');
     const [selectedDays, setSelectedDays] = useState([]);
 
-    const [tasks, setTasks] = useState([]);
+    const {
+        tasks,
+        fetchTasksData,
+        toggleTask
+    } = useTasks();
 
     const [isCreatingTask, setIsCreatingTask] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -98,7 +100,7 @@ const Tasks = () => {
             if (data.success) {
                 alert(data.message); // updateModal
 
-                await fetchTasks();
+                await fetchTasksData();
 
                 handleCloseModal();
             } else {
@@ -152,7 +154,7 @@ const Tasks = () => {
             if (data.success) {
                 alert(data.message);
 
-                await fetchTasks();
+                await fetchTasksData();
 
                 handleCloseModal();
             } else {
@@ -184,7 +186,7 @@ const Tasks = () => {
             if (data.success) {
                 alert(data.message); // updateModal
 
-                await fetchTasks();
+                await fetchTasksData();
             } else {
                 alert(data.message); // updateModal
             }
@@ -196,40 +198,6 @@ const Tasks = () => {
             setIsDeletingTask(false);
         }
     };
-
-    const handleToggleTask = async (task) => {
-        try {
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            if (task.is_completed) {
-                await uncompleteTask(task.id, user.id);
-            } else {
-                await completeTask(task.id, user.id);
-            }
-
-            await fetchTasks();
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchTasks = async () => {
-        try {
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            const data = await getTasks(user.id);
-
-            if (data.success) {
-                setTasks(data.tasks);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    useEffect(() => {
-        fetchTasks();
-    }, []);
 
     const handleFrequencyChange = (value) => {
         setFrequency(value);
@@ -354,8 +322,8 @@ const Tasks = () => {
                             showActions={true}
                             onEdit={() => handleOpenEditModal(task)}
                             onDelete={() => handleDeleteTask(task.id)}
-                            onToggleComplete={() => handleToggleTask(task)}
-                            isCompleted={task.is_completed}
+                            onToggleComplete={() => toggleTask(task)}
+                            isCompleted={task.isCompleted}
                             taskBoxTitle={task.name}
                             description={task.description}
                             tags={

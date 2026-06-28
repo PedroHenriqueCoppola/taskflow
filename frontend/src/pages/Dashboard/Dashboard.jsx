@@ -1,6 +1,6 @@
 import './Dashboard.css';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Plus, Clock, CircleCheckBig, TrendingUp, RotateCcw } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, MinorTitle } from "../../styles/globalStyles";
 import {
@@ -10,7 +10,6 @@ import {
     shouldShowTaskThisMonth,
     isTaskCompletedForCurrentOccurrence
 } from "../../utils/taskHelpers";
-import { getTasks, getCompletions, completeTask, uncompleteTask } from "../../services/taskService"
 
 import Button from '../../components/Button/Button';
 import InfoBox from '../../components/InfoBox/InfoBox';
@@ -18,46 +17,16 @@ import FilterBox from '../../components/FilterBox/FilterBox';
 import getFilterDateText from '../../utils/getFilterDateText';
 import TaskBox from '../../components/TaskBox/TaskBox';
 import Tag from '../../components/Tag/Tag';
+import useTasks from '../../hooks/useTasks';
 
 const Dashboard = () => {
     const [activeFilter, setActiveFilter] = useState("today");
 
-    const [tasks, setTasks] = useState([]);
-    const [completions, setCompletions] = useState([]);
-
-    const fetchDashboardData = async () => {
-        try {
-            const user = JSON.parse(
-                localStorage.getItem('user')
-            );
-
-            const [tasksData, completionsData] =
-                await Promise.all([
-                    getTasks(user.id),
-                    getCompletions(user.id)
-                ]);
-
-            if (tasksData.success) {
-                setTasks(tasksData.tasks);
-            }
-
-            if (completionsData.success) {
-                setCompletions(
-                    completionsData.completions
-                );
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    useEffect(() => {
-        const loadData = async () => {
-            await fetchDashboardData();
-        };
-
-        loadData();
-    }, []);
+    const {
+        tasks,
+        completions,
+        toggleTask
+    } = useTasks();
 
     const filteredTasks = tasks.filter(task => {
         switch (activeFilter) {
@@ -75,12 +44,20 @@ const Dashboard = () => {
         }
     });
 
-    const pendingTasksList = filteredTasks.filter(
-        task => !isTaskCompletedForCurrentOccurrence(task, completions)
+    const dashboardTasks = filteredTasks.map(task => ({
+        ...task,
+        isCompleted: isTaskCompletedForCurrentOccurrence(
+            task,
+            completions
+        )
+    }));
+
+    const pendingTasksList = dashboardTasks.filter(
+        task => !task.isCompleted
     );
 
-    const completedTasksList = filteredTasks.filter(
-        task => isTaskCompletedForCurrentOccurrence(task, completions)
+    const completedTasksList = dashboardTasks.filter(
+        task => task.isCompleted
     );
 
     // Lógica de amostragem das tarefas pendentes
@@ -99,23 +76,6 @@ const Dashboard = () => {
                 ) * 100
             )
             : 0;
-
-    const handleToggleTask = async (task) => {
-        try {
-            const user = JSON.parse(localStorage.getItem('user'));
-            const isCompleted = isTaskCompletedForCurrentOccurrence(task, completions);
-
-            if (isCompleted) {
-                await uncompleteTask(task.id, user.id);
-            } else {
-                await completeTask(task.id, user.id);
-            }
-
-            await fetchDashboardData();
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     const completedLabel = {
         today: 'Concluídas Hoje',
@@ -187,8 +147,8 @@ const Dashboard = () => {
                         key={task.id}
                         taskBoxTitle={task.name}
                         description={task.description}
-                        onToggleComplete={() => handleToggleTask(task)}
-                        isCompleted={false}
+                        onToggleComplete={() => toggleTask(task)}
+                        isCompleted={task.isCompleted}
                         tags={
                             <>
                                 <Tag
@@ -217,8 +177,8 @@ const Dashboard = () => {
                             key={task.id}
                             taskBoxTitle={task.name}
                             description={task.description}
-                            onToggleComplete={() => handleToggleTask(task)}
-                            isCompleted={true}
+                            onToggleComplete={() => toggleTask(task)}
+                            isCompleted={task.isCompleted}
                             tags={
                                 <>
                                     <Tag
