@@ -46,3 +46,21 @@
     display: flex;
     gap: 2rem;
 }
+
+.graphHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    max-height: 2.5rem;
+}
+
+.graphFilters {
+    display: flex;
+    gap: .8rem;
+}
+
+.graphContent {
+    width: 100%;
+    height: 40rem;
+}

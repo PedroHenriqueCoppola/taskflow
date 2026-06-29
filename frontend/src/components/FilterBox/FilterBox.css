@@ -31,10 +31,18 @@
     }
 }
 
+.FilterBox.small {
+    padding: .6rem 1rem;
+}
+
 .FilterBox > p {
     font-size: 1.4rem;
     font-weight: 500;
     color: var(--black);
+}
+
+.FilterBox.small > p {
+    font-size: 1.1rem;
 }
 
 .FilterBox.active {

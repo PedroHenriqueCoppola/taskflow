@@ -111,3 +111,11 @@ export const getCompletions = async (userId) => {
 
     return response.json();
 };
+
+export const getProgressMetrics = async (userId) => {
+    const response = await fetch(
+        `${API_BASE_URL}/progress/GetMetrics.php?user_id=${userId}`
+    );
+
+    return response.json();
+};
