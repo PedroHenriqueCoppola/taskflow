@@ -61,14 +61,11 @@ export const validateTaskForm = ({
         return 'O título deve ter pelo menos 3 caracteres.';
     }
 
-    if (title.trim().length > 150) {
-        return 'O título deve ter no máximo 150 caracteres.';
+    if (title.trim().length > 40) {
+        return 'O título deve ter no máximo 40 caracteres.';
     }
 
-    if (
-        frequency === 'weekly'
-        && !selectedDays.length
-    ) {
+    if (frequency === 'weekly' && !selectedDays.length) {
         return 'Selecione pelo menos um dia da semana.';
     }
 

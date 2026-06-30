@@ -4,6 +4,7 @@ import { GlobalStyle, Title, SubTitle } from "../../styles/globalStyles";
 import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState } from 'react';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
+import { toast } from 'sonner';
 
 import Button from "../../components/Button/Button";
 import TaskBox from '../../components/TaskBox/TaskBox';
@@ -67,7 +68,7 @@ const Tasks = () => {
         });
 
         if (validationError) {
-            alert(validationError); // updateModal
+            toast.warning(validationError);
 
             return;
         }
@@ -95,16 +96,16 @@ const Tasks = () => {
             const data = await createNewTask(taskData);
 
             if (data.success) {
-                alert(data.message); // updateModal
+                toast.success(data.message);
 
                 handleCloseModal();
             } else {
-                alert(data.message); // updateModal
+                toast.error(data.message);
             }
         } catch (error) {
             console.error(error);
 
-            alert('Erro ao criar tarefa.'); // updateModal
+            toast.error('Erro ao criar tarefa.');
         } finally {
             setIsCreatingTask(false);
         }
@@ -121,7 +122,7 @@ const Tasks = () => {
         });
 
         if (validationError) {
-            alert(validationError);
+            toast.warning(validationError);
 
             return;
         }
@@ -147,16 +148,16 @@ const Tasks = () => {
             const data = await updateExistingTask(taskData);
 
             if (data.success) {
-                alert(data.message);
+                toast.success(data.message);
 
                 handleCloseModal();
             } else {
-                alert(data.message); // updateModal
+                toast.error(data.message);
             }
         } catch (error) {
             console.error(error);
 
-            alert('Erro ao atualizar tarefa.');
+            toast.error('Erro ao atualizar tarefa.');
         } finally {
             setIsUpdatingTask(false);
         }
@@ -177,14 +178,14 @@ const Tasks = () => {
             const data = await deleteExistingTask(taskId);
 
             if (data.success) {
-                alert(data.message); // updateModal
+                toast.success(data.message);
             } else {
-                alert(data.message); // updateModal
+                toast.error(data.message);
             }
         } catch (error) {
             console.error(error);
 
-            alert('Erro ao excluir tarefa.'); // updateModal
+            toast.error('Erro ao excluir tarefa.');
         } finally {
             setIsDeletingTask(false);
         }

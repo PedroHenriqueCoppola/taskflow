@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ListTodo, Mail, Lock } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, IconBox, LinkText } from "../../styles/globalStyles";
 import { login } from '../../services/authService';
+import { toast } from 'sonner';
 
 import Card from "../../components/Card/Card";
 import Input from '../../components/Input/Input';
@@ -17,13 +18,13 @@ const Login = () => {
 
     const handleLoginClick = async () => {
         if (!email || !password) {
-            alert('Preencha todos os campos'); // updateModal
+            toast.warning('Preencha todos os campos.');
 
             return;
         }
 
         if (!email.includes('@')) {
-            alert('Digite um email válido'); // updateModal
+            toast.warning('Digite um email válido.');
 
             return;
         }
@@ -39,12 +40,12 @@ const Login = () => {
 
                 navigate('/');
             } else {
-                alert(data.message); // updateModal
+                toast.error(data.message);
             }
         } catch (error) {
             console.error(error);
 
-            alert('Erro ao realizar login'); // updateModal
+            toast.error('Erro ao realizar login.');
         }
     };
 

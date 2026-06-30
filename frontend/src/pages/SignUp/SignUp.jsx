@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ListTodo, User, Mail, Lock } from "lucide-react";
 import { GlobalStyle, Title, SubTitle, IconBox, LinkText } from "../../styles/globalStyles";
 import { register } from '../../services/authService';
+import { toast } from 'sonner';
 
 import Card from "../../components/Card/Card";
 import Input from '../../components/Input/Input';
@@ -20,25 +21,25 @@ const SignUp = () => {
 
     const handleSignUpClick = async () => {
         if (!name || !email || !password || !confirmPassword) {
-            alert('Preencha todos os campos.'); // updateModal
+            toast.warning('Preencha todos os campos.');
 
             return;
         }
 
         if (!email.includes('@')) {
-            alert('Digite um email válido.'); // updateModal
+            toast.warning('Digite um email válido.');
 
             return;
         }
 
         if (password.length < 4) {
-            alert('A senha deve ter pelo menos 4 caracteres.'); // updateModal
+            toast.warning('A senha deve ter pelo menos 4 caracteres.');
 
             return;
         }
 
         if (password !== confirmPassword) {
-            alert('As senhas não coincidem.'); // updateModal
+            toast.warning('As senhas não coincidem.');
 
             return;
         }
@@ -47,16 +48,16 @@ const SignUp = () => {
             const data = await register(name, email, password);
 
             if (data.success) {
-                alert('Usuário criado com sucesso.'); // updateModal
+                toast.success('Usuário criado com sucesso.');
 
                 navigate('/login');
             } else {
-                alert(data.message);
+                toast.error(data.message);
             }
         } catch (error) {
             console.error(error);
 
-            alert('Erro ao criar usuário');
+            toast.error('Erro ao criar usuário.');
         }
     };
 
