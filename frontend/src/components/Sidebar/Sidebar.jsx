@@ -8,6 +8,8 @@ import styled from "styled-components";
 
 const StyledSidebar = styled.div`
     height: 100vh;
+    position: sticky;
+    top: 0;
     background-color: var(--white);
     border-right: 1px solid var(--border-gray);
 
