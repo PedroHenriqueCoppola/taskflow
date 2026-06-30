@@ -1,7 +1,7 @@
 import {
     parseLocalDate,
-    shouldTaskExistOnDate,
-    isTaskCompletedOnDate
+    taskExistsOnDate,
+    taskCompletedOnDate
 } from "./taskHelpers";
 
 const isWithinCurrentWeek = (date) => {
@@ -230,8 +230,8 @@ export const getCompletionRateChartData = (tasks, completions, period) => {
             const currentDate = new Date(firstDay);
             currentDate.setDate(firstDay.getDate() + i);
 
-            const existingTasks = tasks.filter(task => shouldTaskExistOnDate(task, currentDate));
-            const completedTasks = existingTasks.filter(task => isTaskCompletedOnDate(task, completions, currentDate));
+            const existingTasks = tasks.filter(task => taskExistsOnDate(task, currentDate));
+            const completedTasks = existingTasks.filter(task => taskCompletedOnDate(task, completions, currentDate));
 
             data.push({
                 label: WEEK_DAYS[currentDate.getDay()],
@@ -282,17 +282,12 @@ export const getCompletionRateChartData = (tasks, completions, period) => {
                     day
                 );
 
-                const existingTasks = tasks.filter(task =>
-                    shouldTaskExistOnDate(
-                        task,
-                        currentDate
-                    )
-                );
+                const existingTasks = tasks.filter(task => taskExistsOnDate(task, currentDate));
 
                 total += existingTasks.length;
 
                 completed += existingTasks.filter(task =>
-                    isTaskCompletedOnDate(task, completions, currentDate)
+                    taskCompletedOnDate(task, completions, currentDate)
                 ).length;
             }
 

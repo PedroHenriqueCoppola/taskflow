@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProgressMetrics } from "../services/taskService";
+import { getTasks, getCompletions } from "../services/taskService";
 
 const useProgress = () => {
     const [tasks, setTasks] = useState([]);
@@ -11,12 +11,14 @@ const useProgress = () => {
             setLoading(true);
 
             const user = JSON.parse(localStorage.getItem("user"));
-            const data = await getProgressMetrics(user.id);
+            const [tasksData, completionsData] = await Promise.all([getTasks(user.id), getCompletions(user.id)]);
 
-            if (data.success) {
-                setTasks(data.tasks);
-                setCompletions(data.completions);
+            if (tasksData.success && completionsData.success) {
+                setTasks(tasksData.tasks);
+                setCompletions(completionsData.completions);
             }
+        } catch (error) {
+            console.error(error);
         } finally {
             setLoading(false);
         }

@@ -15,6 +15,16 @@ const useTasks = () => {
     const [completions, setCompletions] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const mapTasksWithCompletion = (tasks, completions) => {
+        return tasks.map(task => ({
+            ...task,
+            isCompleted: isTaskCompletedForCurrentOccurrence(
+                task,
+                completions
+            )
+        }));
+    };
+
     const fetchTasksData = async () => {
         try {
             setLoading(true);
@@ -28,15 +38,12 @@ const useTasks = () => {
                 ]);
 
             if (tasksData.success && completionsData.success) {
-                const mappedTasks = tasksData.tasks.map(task => ({
-                    ...task,
-                    isCompleted: isTaskCompletedForCurrentOccurrence(
-                        task,
+                setTasks(
+                    mapTasksWithCompletion(
+                        tasksData.tasks,
                         completionsData.completions
                     )
-                }));
-
-                setTasks(mappedTasks);
+                );
                 setCompletions(completionsData.completions);
             }
         } catch (error) {

@@ -150,146 +150,54 @@ export const isDateInCurrentMonth = (dateString) => {
 };
 
 export const shouldShowTaskToday = (task) => {
-    const today = new Date();
-
-    const currentDayOfWeek = today.getDay();
-    const currentDayOfMonth = today.getDate();
-
-    switch (task.frequency) {
-        case 'daily':
-            return true;
-
-        case 'single':
-            return isDateToday(task.single_date);
-
-        case 'weekly':
-            return task.week_days
-                ?.split(',')
-                .map(Number)
-                .includes(currentDayOfWeek);
-
-        case 'monthly':
-            return Number(task.month_day) === currentDayOfMonth;
-
-        default:
-            return false;
-    }
+    return taskExistsOnDate(task, new Date());
 };
 
 export const shouldShowTaskThisWeek = (task) => {
     const today = new Date();
 
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
+    const firstDay = new Date(today);
+    firstDay.setHours(0, 0, 0, 0);
+    firstDay.setDate(today.getDate() - today.getDay());
 
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(firstDay);
+        currentDate.setDate(firstDay.getDate() + i);
 
-    switch (task.frequency) {
-        case 'daily':
+        if (taskExistsOnDate(task, currentDate)) {
             return true;
-
-        case 'single':
-            return isDateInCurrentWeek(task.single_date);
-
-        case 'weekly': {
-            const selectedDays = task.week_days
-                ?.split(',')
-                .map(Number);
-
-            return selectedDays?.length > 0;
         }
-
-        case 'monthly': {
-            const monthDay = Number(task.month_day);
-
-            const currentDay = today.getDay();
-
-            const diffToMonday =
-                currentDay === 0
-                    ? -6
-                    : 1 - currentDay;
-
-            const monday = new Date(today);
-            monday.setDate(today.getDate() + diffToMonday);
-
-            for (let i = 0; i < 7; i++) {
-                const day = new Date(monday);
-
-                day.setDate(monday.getDate() + i);
-
-                if (day.getDate() === monthDay) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        default:
-            return false;
     }
-};
 
-export const shouldShowTaskThisMonth = (task) => {
-    switch (task.frequency) {
-        case 'daily':
-        case 'weekly':
-        case 'monthly':
-            return true;
-
-        case 'single':
-            return isDateInCurrentMonth(task.single_date);
-
-        default:
-            return false;
-    }
-};
-
-const getTaskCompletions = (task, completions) => {
-    return completions.filter(
-        completion => completion.task_id === task.id
-    );
-};
-
-const formatDateToTaskComparison = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-};
-
-const isDailyOrWeeklyOrMonthlyTaskCompleted = (task, completions) => {
-    const today = formatDateToTaskComparison(new Date());
-    const taskCompletions = getTaskCompletions(task, completions);
-
-    return taskCompletions.some(completion => completion.occurrence_date === today);
-};
-
-const isSingleTaskCompleted = (task, completions) => {
-    const taskCompletions = getTaskCompletions(task, completions);
-
-    return taskCompletions.length > 0;
+    return false;
 }
 
-export const isTaskCompletedForCurrentOccurrence = (task, completions) => {
-    switch (task.frequency) {
-        case 'daily':
-            return isDailyOrWeeklyOrMonthlyTaskCompleted(task, completions);
+export const shouldShowTaskThisMonth = (task) => {
+    const today = new Date();
 
-        case 'weekly':
-            return isDailyOrWeeklyOrMonthlyTaskCompleted(task, completions);
+    const totalDays = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0
+    ).getDate();
 
-        case 'monthly':
-            return isDailyOrWeeklyOrMonthlyTaskCompleted(task, completions);
+    for (let day = 1; day <= totalDays; day++) {
+        const currentDate = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            day
+        );
 
-        case 'single':
-            return isSingleTaskCompleted(task, completions);
-
-        default:
-            return false;
+        if (taskExistsOnDate(task, currentDate)) {
+            return true;
+        }
     }
+
+    return false;
+};
+
+export const isTaskCompletedForCurrentOccurrence = (task, completions) => {
+    return taskCompletedOnDate(task, completions, new Date());
 };
 
 export const parseLocalDate = (dateString) => {
@@ -300,56 +208,44 @@ export const parseLocalDate = (dateString) => {
     return new Date(year, month - 1, day);
 };
 
-export const isSameDay = (dateA, dateB) => {
-    return (
-        dateA.getFullYear() === dateB.getFullYear() &&
-        dateA.getMonth() === dateB.getMonth() &&
-        dateA.getDate() === dateB.getDate()
-    );
-};
-
-export const shouldTaskExistOnDate = (task, targetDate) => {
+export const taskExistsOnDate = (task, targetDate) => {
     switch (task.frequency) {
         case "daily":
             return true;
 
         case "weekly":
-            if (!task.week_days) {
-                return false;
-            }
             return task.week_days
-                .split(",")
+                ?.split(",")
                 .map(Number)
                 .includes(targetDate.getDay());
 
         case "monthly":
-            return (
-                Number(task.month_day) ===
-                targetDate.getDate()
-            );
+            return Number(task.month_day) === targetDate.getDate();
 
         case "single":
-            if (!task.single_date) {
-                return false;
-            }
-
-            return isSameDay(parseLocalDate(task.single_date), targetDate);
+            return (
+                task.single_date &&
+                isSameDay(parseLocalDate(task.single_date), targetDate)
+            );
 
         default:
             return false;
     }
 };
 
-export const isTaskCompletedOnDate = (task, completions, targetDate) => {
+export const taskCompletedOnDate = (task, completions, targetDate) => {
     return completions.some(completion => {
-
-        if (completion.task_id !== task.id) {
-            return false;
-        }
-
-        return isSameDay(
-            parseLocalDate(completion.occurrence_date),
-            targetDate
+        return (
+            completion.task_id === task.id &&
+            isSameDay(parseLocalDate(completion.occurrence_date), targetDate)
         );
     });
+};
+
+export const isSameDay = (dateA, dateB) => {
+    return (
+        dateA.getFullYear() === dateB.getFullYear() &&
+        dateA.getMonth() === dateB.getMonth() &&
+        dateA.getDate() === dateB.getDate()
+    );
 };
