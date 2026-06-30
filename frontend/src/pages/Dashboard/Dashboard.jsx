@@ -129,34 +129,36 @@ const Dashboard = () => {
                 <MinorTitle>{getFilterDateText(activeFilter)}</MinorTitle>
             </div>
 
-            <div className="dashboardPendentTasks">
-                <MinorTitle fontSize="1.2rem" letterSpacing="1px">PENDENTES</MinorTitle>
+            {pendingTasksList.length >= 1 && (
+                <div className="dashboardPendentTasks">
+                    <MinorTitle fontSize="1.2rem" letterSpacing="1px">PENDENTES</MinorTitle>
 
-                {pendingTasksList.map(task => (
-                    <TaskBox
-                        key={task.id}
-                        taskBoxTitle={task.name}
-                        description={task.description}
-                        onToggleComplete={() => toggleTask(task)}
-                        isCompleted={task.isCompleted}
-                        tags={
-                            <>
-                                <Tag
-                                    icon={<RotateCcw size={14} />}
-                                    content={formatTaskFrequency(task)}
-                                />
-
-                                {task.time && (
+                    {pendingTasksList.map(task => (
+                        <TaskBox
+                            key={task.id}
+                            taskBoxTitle={task.name}
+                            description={task.description}
+                            onToggleComplete={() => toggleTask(task)}
+                            isCompleted={task.isCompleted}
+                            tags={
+                                <>
                                     <Tag
-                                        icon={<Clock size={14} />}
-                                        content={task.time.slice(0, 5)}
+                                        icon={<RotateCcw size={14} />}
+                                        content={formatTaskFrequency(task)}
                                     />
-                                )}
-                            </>
-                        }
-                    />
-                ))}
-            </div>
+
+                                    {task.time && (
+                                        <Tag
+                                            icon={<Clock size={14} />}
+                                            content={task.time.slice(0, 5)}
+                                        />
+                                    )}
+                                </>
+                            }
+                        />
+                    ))}
+                </div>
+            )}
 
             {completedTasksList.length > 0 && (
                 <div className="dashboardConcludedTasks">
