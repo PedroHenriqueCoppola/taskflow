@@ -78,12 +78,67 @@ export const getBestDay = (filteredCompletions) => {
     return days[bestDay];
 };
 
-export const getAverageCompletionRate = (tasks, filteredCompletions) => {
+export const getAverageCompletionRate = (tasks, completions, period) => {
     if (!tasks.length) {
         return 0;
     }
 
-    return Math.round((filteredCompletions.length / tasks.length) * 100);
+    const today = new Date();
+
+    let totalOccurrences = 0;
+    let completedOccurrences = 0;
+
+    let startDate;
+    let endDate;
+
+    if (period === "week") {
+        startDate = new Date(today);
+
+        startDate.setHours(0, 0, 0, 0);
+        startDate.setDate(today.getDate() - today.getDay());
+
+        endDate = new Date(startDate);
+
+        endDate.setDate(startDate.getDate() + 6);
+    } else {
+        startDate = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        );
+
+        endDate = new Date(
+            today.getFullYear(),
+            today.getMonth() + 1,
+            0
+        );
+    }
+
+    for (
+        let date = new Date(startDate);
+        date <= endDate;
+        date.setDate(date.getDate() + 1)
+    ) {
+        const currentDate = new Date(date);
+
+        const existingTasks = tasks.filter(task =>
+            taskExistsOnDate(task, currentDate)
+        );
+
+        totalOccurrences += existingTasks.length;
+
+        completedOccurrences += existingTasks.filter(task =>
+            taskCompletedOnDate(task, completions, currentDate)
+        ).length;
+    }
+
+    if (!totalOccurrences) {
+        return 0;
+    }
+
+    return Math.round(
+        (completedOccurrences / totalOccurrences) * 100
+    );
 };
 
 const WEEK_DAYS = [

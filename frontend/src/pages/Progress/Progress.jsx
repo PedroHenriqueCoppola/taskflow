@@ -33,7 +33,7 @@ const Progress = () => {
     const filteredCompletions = getFilteredCompletions(completions, activeFilter);
     const totalCompleted = getTotalCompleted(filteredCompletions);
     const bestDay = getBestDay(filteredCompletions);
-    const averageCompletionRate = getAverageCompletionRate(tasks, filteredCompletions);
+    const averageCompletionRate = getAverageCompletionRate(tasks, completions, activeFilter);
 
     const completedChartData = getCompletedChartData(
         completions,
