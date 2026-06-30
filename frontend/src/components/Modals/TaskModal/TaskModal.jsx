@@ -1,7 +1,7 @@
 import './TaskModal.css';
 
 import { Title, InputText } from "../../../styles/globalStyles.js";
-import { Plus } from "lucide-react";
+import { Plus, PencilLine } from "lucide-react";
 
 import FilterBox from '../../../components/FilterBox/FilterBox.jsx';
 import Button from '../../Button/Button.jsx';
@@ -39,7 +39,11 @@ const TaskModal = (props) => {
         <div className="taskModalApp">
             <div className="taskModalTitle">
                 <div className="taskTitleIcon">
-                    <Plus size={20} />
+                    {
+                        props.isEditing
+                            ? <PencilLine size={20} />
+                            : <Plus size={20} />
+                    }
                 </div>
 
                 <Title fontSize="1.8rem" fontWeight="600">

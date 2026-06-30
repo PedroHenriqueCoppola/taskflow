@@ -5,6 +5,7 @@ import { Plus, Clock, RotateCcw } from "lucide-react";
 import { useState } from 'react';
 import { formatTaskFrequency, validateTaskForm } from '../../utils/taskHelpers';
 import { toast } from 'sonner';
+import { confirmToast } from "../../utils/confirmToast";
 
 import Button from "../../components/Button/Button";
 import TaskBox from '../../components/TaskBox/TaskBox';
@@ -164,31 +165,31 @@ const Tasks = () => {
     };
 
     const handleDeleteTask = async (taskId) => {
-        const confirmDelete = window.confirm(
-            'Tem certeza que deseja excluir esta tarefa?'
-        );
+        confirmToast({
+            title: "Excluir tarefa?",
+            description: "Essa ação não poderá ser desfeita.",
+            confirmText: "Excluir",
+            cancelText: "Cancelar",
+            onConfirm: async () => {
+                try {
+                    setIsDeletingTask(true);
 
-        if (!confirmDelete) {
-            return;
-        }
+                    const data = await deleteExistingTask(taskId);
 
-        try {
-            setIsDeletingTask(true);
+                    if (data.success) {
+                        toast.success(data.message);
+                    } else {
+                        toast.error(data.message);
+                    }
+                } catch (error) {
+                    console.error(error);
 
-            const data = await deleteExistingTask(taskId);
-
-            if (data.success) {
-                toast.success(data.message);
-            } else {
-                toast.error(data.message);
+                    toast.error("Erro ao excluir tarefa.");
+                } finally {
+                    setIsDeletingTask(false);
+                }
             }
-        } catch (error) {
-            console.error(error);
-
-            toast.error('Erro ao excluir tarefa.');
-        } finally {
-            setIsDeletingTask(false);
-        }
+        });
     };
 
     const handleFrequencyChange = (value) => {

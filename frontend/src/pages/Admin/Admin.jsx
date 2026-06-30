@@ -1,7 +1,7 @@
 import './Admin.css';
 
 import { GlobalStyle, Title, SubTitle, MinorTitle } from "../../styles/globalStyles";
-import { Shield, Ban, Trash2 } from "lucide-react";
+import { Shield, Ban, Trash2, LockOpen } from "lucide-react";
 
 import useAdmin from '../../hooks/useAdmin';
 
@@ -51,9 +51,22 @@ const Admin = () => {
                                 <td className="alignCenter adminTasksColumn"><MinorTitle fontSize="1.4rem">{user.tasks}</MinorTitle></td>
                                 <td>
                                     <div className="adminTableActions">
-                                        <button className="adminActionBtn btnBlock" title="Bloquear usuário" onClick={() => toggleStatus(user.id)}>
-                                            <Ban size={18} strokeWidth={1.5} />
+                                        <button
+                                            className="adminActionBtn btnBlock"
+                                            title={
+                                                user.status === "ativo"
+                                                    ? "Bloquear usuário"
+                                                    : "Desbloquear usuário"
+                                            }
+                                            onClick={() => toggleStatus(user.id)}
+                                        >
+                                            {user.status === "ativo" ? (
+                                                <Ban size={18} strokeWidth={1.5} />
+                                            ) : (
+                                                <LockOpen size={18} strokeWidth={1.5} />
+                                            )}
                                         </button>
+
                                         <button className="adminActionBtn btnDelete" title="Excluir usuário" onClick={() => removeUser(user.id)}>
                                             <Trash2 size={18} strokeWidth={1.5} />
                                         </button>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { getUsers, toggleUserStatus, deleteUser } from "../services/adminService";
+import { confirmToast } from "../utils/confirmToast";
 
 const useAdmin = () => {
     const [users, setUsers] = useState([]);
@@ -21,28 +23,61 @@ const useAdmin = () => {
         fetchUsers();
     }, []);
 
-    const toggleStatus = async (userId) => {
-        const confirmed = window.confirm("Deseja realmente bloquear este usuário?");
+    const toggleStatus = (userId) => {
+        const currentUser = JSON.parse(localStorage.getItem("user"));
+        const selectedUser = users.find(user => user.id === userId);
+        const isBlocking = selectedUser.status === "ativo";
 
-        if (!confirmed) return;
+        confirmToast({
+            title: isBlocking
+                ? "Bloquear usuário?"
+                : "Desbloquear usuário?",
+            description: isBlocking
+                ? "O usuário perderá acesso ao sistema."
+                : "O usuário poderá acessar novamente o sistema.",
+            confirmLabel: isBlocking
+                ? "Bloquear"
+                : "Desbloquear",
 
-        const user = JSON.parse(localStorage.getItem("user"));
+            onConfirm: async () => {
+                const response = await toggleUserStatus(currentUser.id, userId);
 
-        await toggleUserStatus(user.id, userId);
+                if (response.success) {
+                    await fetchUsers();
 
-        fetchUsers();
+                    toast.success(
+                        isBlocking
+                            ? "Usuário bloqueado."
+                            : "Usuário desbloqueado."
+                    );
+                } else {
+                    toast.error(response.message);
+                }
+            }
+        });
     };
 
-    const removeUser = async (userId) => {
-        const confirmed = window.confirm("Deseja realmente excluir este usuário?");
+    const removeUser = (userId) => {
+        const currentUser = JSON.parse(localStorage.getItem("user"));
 
-        if (!confirmed) return;
+        confirmToast({
+            title: "Excluir usuário?",
+            description:
+                "Todos os dados do usuário serão removidos permanentemente.",
+            confirmLabel: "Excluir",
 
-        const user = JSON.parse(localStorage.getItem("user"));
+            onConfirm: async () => {
+                const response = await deleteUser(currentUser.id, userId);
 
-        await deleteUser(user.id, userId);
+                if (response.success) {
+                    await fetchUsers();
 
-        fetchUsers();
+                    toast.success("Usuário excluído.");
+                } else {
+                    toast.error(response.message);
+                }
+            }
+        });
     };
 
     return {
