@@ -62,7 +62,7 @@ const ProfileModal = () => {
                     icon={<Shield size={16} />}
                     description="Tipo de conta"
                     readonly
-                    value={(user?.role == 'user') ? "Usuário" : "Administrador"}
+                    value={(user?.role == 'user') ? "Usuário comum" : "Administrador"}
                 />
 
                 <InputInfo

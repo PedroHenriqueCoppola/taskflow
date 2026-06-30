@@ -3,6 +3,7 @@ import './Sidebar.css';
 import { NavLink } from "react-router-dom";
 import { SubTitle, IconBox } from "../../styles/globalStyles";
 import { ListTodo, LayoutDashboard, Calendar, TrendingUp, Shield } from "lucide-react";
+import { getUser } from "../../utils/auth";
 
 import styled from "styled-components";
 
@@ -57,6 +58,8 @@ const StyledTitle = styled.h2`
 `;
 
 const Sidebar = ({ isOpen }) => {
+    const user = getUser();
+
     return (
         <StyledSidebar isOpen={isOpen} className={isOpen ? "open" : "closed"}>
             <div className="sidebarLogo">
@@ -75,10 +78,10 @@ const Sidebar = ({ isOpen }) => {
                     <span className="text">Dashboard</span>
                 </StyledLink>
 
-                <StyledLink to="/calendar" className={({ isActive }) => isActive ? "active" : ""}>
+                {/* <StyledLink to="/calendar" className={({ isActive }) => isActive ? "active" : ""}>
                     <Calendar size={16} />
                     <span className="text">Calendário</span>
-                </StyledLink>
+                </StyledLink> */}
 
                 <StyledLink to="/progress" className={({ isActive }) => isActive ? "active" : ""}>
                     <TrendingUp size={16} />
@@ -91,16 +94,18 @@ const Sidebar = ({ isOpen }) => {
                 </StyledLink>
             </div>
 
-            <div className="sidebarAdmin">
-                <SubTitle fontSize="1.2rem">Admin</SubTitle>
+            {user?.role === "admin" && (
+                <div className="sidebarAdmin">
+                    <SubTitle fontSize="1.2rem">Admin</SubTitle>
 
-                <div className="adminDiv">
-                    <StyledLink to="/admin" className="sidebarItem">
-                        <Shield size={16} />
-                        <span className="text">Administração</span>
-                    </StyledLink>
+                    <div className="adminDiv">
+                        <StyledLink to="/admin" className="sidebarItem">
+                            <Shield size={16} />
+                            <span className="text">Administração</span>
+                        </StyledLink>
+                    </div>
                 </div>
-            </div>
+            )}
         </StyledSidebar>
     )
 }
