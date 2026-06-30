@@ -294,3 +294,65 @@ export const isTaskCompletedForCurrentOccurrence = (task, completions) => {
             return false;
     }
 };
+
+export const parseLocalDate = (dateString) => {
+    const [year, month, day] = dateString
+        .split("-")
+        .map(Number);
+
+    return new Date(year, month - 1, day);
+};
+
+export const isSameDay = (dateA, dateB) => {
+    return (
+        dateA.getFullYear() === dateB.getFullYear() &&
+        dateA.getMonth() === dateB.getMonth() &&
+        dateA.getDate() === dateB.getDate()
+    );
+};
+
+export const shouldTaskExistOnDate = (task, targetDate) => {
+    switch (task.frequency) {
+        case "daily":
+            return true;
+
+        case "weekly":
+            if (!task.week_days) {
+                return false;
+            }
+            return task.week_days
+                .split(",")
+                .map(Number)
+                .includes(targetDate.getDay());
+
+        case "monthly":
+            return (
+                Number(task.month_day) ===
+                targetDate.getDate()
+            );
+
+        case "single":
+            if (!task.single_date) {
+                return false;
+            }
+
+            return isSameDay(parseLocalDate(task.single_date), targetDate);
+
+        default:
+            return false;
+    }
+};
+
+export const isTaskCompletedOnDate = (task, completions, targetDate) => {
+    return completions.some(completion => {
+
+        if (completion.task_id !== task.id) {
+            return false;
+        }
+
+        return isSameDay(
+            parseLocalDate(completion.occurrence_date),
+            targetDate
+        );
+    });
+};

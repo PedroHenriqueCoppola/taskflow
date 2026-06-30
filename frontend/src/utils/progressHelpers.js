@@ -1,10 +1,8 @@
-const parseDate = (dateString) => {
-    const [year, month, day] = dateString
-        .split("-")
-        .map(Number);
-
-    return new Date(year, month - 1, day);
-};
+import {
+    parseLocalDate,
+    shouldTaskExistOnDate,
+    isTaskCompletedOnDate
+} from "./taskHelpers";
 
 const isWithinCurrentWeek = (date) => {
     const today = new Date();
@@ -32,7 +30,7 @@ const isWithinCurrentMonth = (date) => {
 export const getFilteredCompletions = (completions, period) => {
     return completions.filter(completion => {
         const completionDate =
-            parseDate(completion.occurrence_date);
+            parseLocalDate(completion.occurrence_date);
 
         switch (period) {
             case "week":
@@ -69,7 +67,7 @@ export const getBestDay = (filteredCompletions) => {
     const count = {};
 
     filteredCompletions.forEach(completion => {
-        const date = parseDate(completion.occurrence_date);
+        const date = parseLocalDate(completion.occurrence_date);
         const day = date.getDay();
 
         count[day] = (count[day] || 0) + 1;
@@ -110,7 +108,7 @@ export const getDailyCompletedData = (completions) => {
     );
 
     filtered.forEach(completion => {
-        const date = parseDate(
+        const date = parseLocalDate(
             completion.occurrence_date
         );
 
@@ -135,7 +133,7 @@ export const getWeeklyCompletedData = (completions) => {
     );
 
     filtered.forEach(completion => {
-        const date = parseDate(completion.occurrence_date);
+        const date = parseLocalDate(completion.occurrence_date);
 
         const week = Math.floor((date.getDate() - 1) / 7);
 
@@ -170,7 +168,7 @@ export const getMonthlyCompletedData = (completions) => {
     }
 
     completions.forEach(completion => {
-        const date = parseDate(completion.occurrence_date);
+        const date = parseLocalDate(completion.occurrence_date);
 
         const month = months.find(item =>
             item.month === date.getMonth() &&
@@ -204,11 +202,7 @@ export const getCompletedChartData = (completions, period) => {
     }
 };
 
-export const getCompletionRateChartData = (
-    tasks,
-    completions,
-    period
-) => {
+export const getCompletionRateChartData = (tasks, completions, period) => {
     if (!tasks.length) {
         return [];
     }
@@ -224,79 +218,32 @@ export const getCompletionRateChartData = (
             "Sáb"
         ];
 
-        const data = WEEK_DAYS.map(label => ({
-            label,
-            completed: 0,
-            total: 0,
-            value: 0
-        }));
+        const today = new Date();
 
-        const filteredCompletions = getFilteredCompletions(
-            completions,
-            "week"
-        );
+        const firstDay = new Date(today);
+        firstDay.setHours(0, 0, 0, 0);
+        firstDay.setDate(today.getDate() - today.getDay());
 
-        filteredCompletions.forEach(completion => {
-            const date = parseDate(
-                completion.occurrence_date
-            );
-
-            data[date.getDay()].completed++;
-        });
+        const data = [];
 
         for (let i = 0; i < 7; i++) {
-            const dayTasks = tasks.filter(task => {
-                switch (task.frequency) {
+            const currentDate = new Date(firstDay);
+            currentDate.setDate(firstDay.getDate() + i);
 
-                    case "daily":
-                        return true;
+            const existingTasks = tasks.filter(task => shouldTaskExistOnDate(task, currentDate));
+            const completedTasks = existingTasks.filter(task => isTaskCompletedOnDate(task, completions, currentDate));
 
-                    case "weekly":
-                        if (!task.week_days) {
-                            return false;
-                        }
-
-                        return task.week_days
-                            .split(",")
-                            .map(Number)
-                            .includes(i);
-
-                    case "monthly":
-                        return false;
-
-                    case "single":
-                        if (!task.single_date) {
-                            return false;
-                        }
-
-                        return (
-                            parseDate(task.single_date).getDay() === i
-                        );
-
-                    default:
-                        return false;
-                }
+            data.push({
+                label: WEEK_DAYS[currentDate.getDay()],
+                total: existingTasks.length,
+                completed: completedTasks.length,
+                value: existingTasks.length
+                    ? Math.round(
+                        (completedTasks.length /
+                        existingTasks.length) * 100
+                    )
+                    : 0
             });
-
-            if (i === 1) {
-                console.log(
-                    dayTasks.map(task => ({
-                        id: task.id,
-                        nome: task.name,
-                        frequencia: task.frequency,
-                        single_date: task.single_date,
-                        week_days: task.week_days
-                    }))
-                );
-            }
-
-            data[i].total = dayTasks.length;
-
-            data[i].value = dayTasks.length
-                ? Math.round(
-                    (data[i].completed / dayTasks.length) * 100
-                )
-                : 0;
         }
 
         return data;
@@ -304,120 +251,64 @@ export const getCompletionRateChartData = (
 
     if (period === "month") {
         const today = new Date();
-
-        const weeks = [
-            { label: "Sem 1", completed: 0, total: 0, value: 0 },
-            { label: "Sem 2", completed: 0, total: 0, value: 0 },
-            { label: "Sem 3", completed: 0, total: 0, value: 0 },
-            { label: "Sem 4", completed: 0, total: 0, value: 0 },
-            { label: "Sem 5", completed: 0, total: 0, value: 0 }
-        ];
-
-        const filteredCompletions = getFilteredCompletions(
-            completions,
-            "month"
-        );
-
-        filteredCompletions.forEach(completion => {
-            const date = parseDate(
-                completion.occurrence_date
+        const weeks = [];
+        const totalWeeks =
+            Math.ceil(
+                new Date(
+                    today.getFullYear(),
+                    today.getMonth() + 1,
+                    0
+                ).getDate() / 7
             );
 
-            const week = Math.floor(
-                (date.getDate() - 1) / 7
-            );
-
-            if (weeks[week]) {
-                weeks[week].completed++;
-            }
-        });
-
-        weeks.forEach((week, index) => {
-            const firstDay = index * 7 + 1;
-            const lastDay = firstDay + 6;
-
+        for (let week = 0; week < totalWeeks; week++) {
             let total = 0;
+            let completed = 0;
+
+            const firstDay = week * 7 + 1;
+            const lastDay = Math.min(
+                firstDay + 6,
+                new Date(
+                    today.getFullYear(),
+                    today.getMonth() + 1,
+                    0
+                ).getDate()
+            );
 
             for (let day = firstDay; day <= lastDay; day++) {
-                tasks.forEach(task => {
+                const currentDate = new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    day
+                );
 
-                    switch (task.frequency) {
+                const existingTasks = tasks.filter(task =>
+                    shouldTaskExistOnDate(
+                        task,
+                        currentDate
+                    )
+                );
 
-                        case "daily":
-                            total++;
-                            break;
+                total += existingTasks.length;
 
-                        case "weekly": {
-                            if (!task.week_days) {
-                                break;
-                            }
-
-                            const date = new Date(
-                                today.getFullYear(),
-                                today.getMonth(),
-                                day
-                            );
-
-                            if (
-                                task.week_days
-                                    .split(",")
-                                    .map(Number)
-                                    .includes(date.getDay())
-                            ) {
-                                total++;
-                            }
-
-                            break;
-                        }
-
-                        case "monthly":
-                            if (
-                                Number(task.month_day) === day
-                            ) {
-                                total++;
-                            }
-
-                            break;
-
-                        case "single":
-                            if (!task.single_date) {
-                                break;
-                            }
-
-                            {
-                                const taskDate = parseDate(
-                                    task.single_date
-                                );
-
-                                if (
-                                    taskDate.getDate() === day &&
-                                    taskDate.getMonth() === today.getMonth() &&
-                                    taskDate.getFullYear() === today.getFullYear()
-                                ) {
-                                    total++;
-                                }
-                            }
-
-                            break;
-
-                        default:
-                            break;
-                    }
-                });
+                completed += existingTasks.filter(task =>
+                    isTaskCompletedOnDate(task, completions, currentDate)
+                ).length;
             }
 
-            week.total = total;
+            weeks.push({
+                label: `Sem ${week + 1}`,
+                total,
+                completed,
+                value: total
+                    ? Math.round(
+                        (completed / total) * 100
+                    )
+                    : 0
+            });
+        }
 
-            week.value = total
-                ? Math.round(
-                    (week.completed / total) * 100
-                )
-                : 0;
-        });
-
-        return weeks.filter(
-            week => week.total > 0
-        );
+        return weeks;
     }
 
     return [];
