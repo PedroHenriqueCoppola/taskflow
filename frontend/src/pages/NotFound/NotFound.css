@@ -1,0 +1,48 @@
+.notFoundApp {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--background-gray);
+}
+
+.notFoundContent {
+    width: 48rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8rem;
+
+    text-align: center;
+
+    background-color: var(--white);
+
+    padding: 4rem;
+    border-radius: 1.6rem;
+
+    border: 1px solid var(--border-gray);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.notFoundIcon {
+    width: 7rem;
+    height: 7rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    color: var(--blocked-red);
+    background-color: #FEF2F2;
+}
+
+.notFoundContent a {
+    margin-top: 1rem;
+    text-decoration: none;
+}
