@@ -1,179 +1,327 @@
-<h1 align="center"> 📌 TaskFlow </h1>
+<h1 align="center">
+📌 TaskFlow
+</h1>
 
 <p align="center">
-Sistema Web de Gerenciamento Inteligente de Tarefas 🚀🔥
+Sistema Web para Gerenciamento Inteligente de Tarefas
 </p>
 
 <p align="center">
-  <a href="#-domínio-do-problema">Domínio do Problema</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-objetivo-do-projeto">Objetivo do Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-público-alvo">Público-Alvo</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-funcionalidades-principais">Funcionalidades Principais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-requisitos-funcionais">Requisitos Funcionais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-requisitos-não-funcionais">Requisitos Não Funcionais</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-arquitetura-e-tecnologias">Arquitetura e Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-testes">Testes</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-escopo-do-projeto">Escopo do Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-links">Links</a>
+
+<a href="#-sobre-o-projeto">Sobre</a> •
+<a href="#-funcionalidades">Funcionalidades</a> •
+<a href="#-tecnologias">Tecnologias</a> •
+<a href="#-instalação">Instalação</a> •
+<a href="#-estrutura-do-projeto">Estrutura</a> •
+<a href="#-requisitos-funcionais">RF</a> •
+<a href="#-requisitos-não-funcionais">RNF</a> •
+<a href="#-testes">Testes</a> •
+<a href="#-links">Links</a>
+
 </p>
 
-<img width="1878" height="956" alt="taskflow" src="https://github.com/user-attachments/assets/9fcd6d00-3459-4a66-a41a-e07bd28a8ff2" />
+---
 
+# 📖 Sobre o Projeto
 
-## 📖 Domínio do Problema
+O **TaskFlow** é um sistema web desenvolvido para auxiliar usuários na organização da rotina através do gerenciamento de tarefas recorrentes e pontuais.
 
-A organização de tarefas pessoais e compromissos recorrentes ainda é um desafio para muitos jovens adultos. Embora existam diversas ferramentas no mercado, muitas são pagas, possuem funcionalidades limitadas na versão gratuita ou não oferecem uma visualização clara e analítica do progresso do usuário.
+O sistema permite criar atividades diárias, semanais, mensais ou únicas, acompanhar o progresso através de indicadores e administrar usuários por meio de um painel exclusivo para administradores.
 
-O projeto TaskFlow propõe o desenvolvimento de um sistema web completo de gerenciamento de tarefas, permitindo:
+O projeto foi desenvolvido durante a disciplina de **Engenharia de Software**, aplicando conceitos de arquitetura, organização de código, qualidade de software e boas práticas de desenvolvimento.
 
-- Cadastro detalhado de tarefas
-- Definição de recorrência (diária, semanal, dias específicos)
-- Visualização em lista e calendário (semana/mês)
-- Acompanhamento de progresso por meio de gráficos e indicadores
-- Área administrativa para gestão do sistema
+---
 
-O foco está na organização da rotina de jovens entre 18 e 35 anos que desejam melhorar produtividade, disciplina e acompanhamento de metas.
+# 🚀 Funcionalidades
 
-## 🎯 Objetivo do Projeto
+## 🔐 Autenticação
 
-Desenvolver um sistema web completo para gerenciamento de tarefas recorrentes e pontuais, com foco em:
-
-- Clareza na visualização
-- Controle detalhado das atividades
-- Acompanhamento estatístico do desempenho
-- Estrutura organizada e testável
-
-## 👥 Público-Alvo
-
-Jovens adultos (18–35 anos) que desejam:
-
-- Organizar melhor sua rotina
-- Acompanhar progresso de hábitos
-- Visualizar tarefas de forma prática (lista ou calendário)
-
-## 🧩 Funcionalidades Principais
-
-🔐 Autenticação
-
-- Cadastro de usuário
-- Login e logout
-- Criptografia de senha
+- Cadastro de usuários
+- Login
+- Logout
+- Criptografia de senha (password_hash)
 - Controle de sessão
+- Controle de permissões (Administrador e Usuário)
 
-📝 Gerenciamento de Tarefas
+---
 
-- Criar tarefa com:
-   - Título
-   - Descrição
-   - Data inicial
-   - Frequência (única, diária, semanal)
-   - Dias específicos da semana
-- Editar tarefa
-- Excluir tarefa
-- Marcar tarefa como concluída
-- Histórico de conclusão
+## 📝 Gerenciamento de tarefas
 
-📅 Visualização
+Cada tarefa pode possuir:
 
-- Visualização em lista por dia
-- Visualização semanal
-- Visualização mensal (modo calendário)
+- Nome
+- Descrição
+- Horário
+- Frequência
 
-📊 Página de Progresso
+Tipos de frequência disponíveis:
 
-- Quantidade de tarefas concluídas por período
-- Percentual de conclusão
-- Gráfico semanal/mensal
-- Cards com:
-   - Total de tarefas
-   - Taxa de conclusão
-   - Melhor dia da semana
+- Única
+- Diária
+- Semanal
+- Mensal
 
-👑 Área Administrativa
+Também é possível:
 
-- Listagem de usuários cadastrados
-- Visualização de estatísticas gerais do sistema
-- Possibilidade de:
-   - Bloquear usuário
-   - Remover usuário
-   - Visualizar quantidade de tarefas por usuário
+- Editar tarefas
+- Excluir tarefas
+- Marcar conclusão
+- Histórico de conclusões
 
-## 📋 Requisitos Funcionais
+---
 
-RF01 – O sistema deve permitir cadastro de usuário.
+## 📊 Dashboard
 
-RF02 – O sistema deve permitir autenticação via login e senha.
+O Dashboard apresenta:
 
-RF03 – O usuário deve poder cadastrar tarefas.
+- Tarefas do dia
+- Próximas tarefas
+- Cards informativos
+- Resumo da rotina
 
-RF04 – O usuário deve definir recorrência da tarefa.
+---
 
-F05 – O sistema deve permitir marcar tarefas como concluídas.
+## 📈 Página de Progresso
 
-RF06 – O sistema deve exibir tarefas por lista diária.
+A página de progresso apresenta indicadores calculados dinamicamente:
 
-RF07 – O sistema deve exibir tarefas em visualização de calendário (semana/mês).
+- Total de tarefas concluídas
+- Quantidade de tarefas do período
+- Taxa média de conclusão
+- Melhor dia da semana
+- Gráfico de desempenho
 
-RF08 – O sistema deve gerar métricas de desempenho do usuário.
+Os filtros disponíveis são:
 
-RF09 – O sistema deve possuir perfil administrador.
+- Hoje
+- Semana
+- Mês
 
-RF10 – O administrador deve visualizar usuários cadastrados.
+---
 
-## 📋 Requisitos Não Funcionais
+## 👑 Área Administrativa
 
-RNF01 – O sistema deve possuir interface responsiva.
+A área administrativa permite:
 
-RNF02 – As senhas devem ser armazenadas de forma criptografada.
+- Visualizar usuários cadastrados
+- Bloquear/desbloquear usuários
+- Excluir usuários
+- Visualizar quantidade de tarefas por usuário
 
-RNF03 – O tempo de resposta das requisições deve ser inferior a 2 segundos.
+O acesso é restrito apenas para usuários com perfil **Administrador**.
 
-RNF04 – O sistema deve manter integridade dos dados no banco PostgreSQL.
+---
 
-RNF05 – O código deve possuir testes unitários para regras de negócio críticas.
+# 🏗 Tecnologias
 
-RNF06 – O sistema deve seguir boas práticas de organização de código.
-
-## 🏗 Arquitetura e Tecnologias
-
-🔵 Front-end
+## Front-end
 
 - React
-- CSS padrão
+- React Router
+- React Recharts
+- Styled Components
+- Lucide React
+- Sonner
+- Axios
 
-🟣 Back-end
+---
 
-- PHP
-- JavaScript
+## Back-end
 
-🟢 Banco de Dados
+- PHP 8
 
-- PostgreSQL
+---
 
-## 🧪 Testes
+## Banco de Dados
 
-O projeto contará com:
+- MySQL
 
-- Testes unitários no backend
-- Testes de regras como:
-   - Cálculo de recorrência
-   - Cálculo de porcentagem de conclusão
-   - Validação de autenticação
+---
 
-Objetivo: garantir estabilidade e confiabilidade do sistema.
+## Ferramentas
 
-Para acessar informações mais aprofundadas sobre a arquitetura do projeto, de acordo com o modelo C4 proposto pelo professor na sala de aula, [clique aqui](https://docs.google.com/document/d/17f2PVuOm84QrsEiIe9tt2iVzr5U_io2kb9HyUzpglsM/edit?usp=sharing).
+- Vite
+- XAMPP
+- phpMyAdmin
 
-## 🚀 Escopo do Projeto
+---
 
-Projeto de médio porte, com entrega ao final do semestre, focado em:
+# 📦 Instalação
 
-- Organização sólida de código
-- Aplicação prática de conceitos de Engenharia de Software
-- Estrutura adequada para portfólio
+## 1. Clone o projeto
 
-Não haverá deploy público obrigatório, sendo mantido como projeto acadêmico e de portfólio.
+```bash
+git clone https://github.com/seuusuario/taskflow.git
+```
 
-## 🔗 Links
+---
 
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pedro-henrique-coppola-071baa225/) [![instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/pedrocoppola_/)
+## 2. Instale as dependências
+
+```bash
+npm install
+```
+
+---
+
+## 3. Bibliotecas utilizadas
+
+```bash
+npm install
+
+npm install axios
+
+npm install react-router-dom
+
+npm install styled-components
+
+npm install lucide-react
+
+npm install sonner
+
+npm install recharts
+```
+
+---
+
+## 4. Configure o banco
+
+Crie um banco MySQL chamado
+
+```
+taskflow
+```
+
+Importe o script SQL do projeto.
+
+---
+
+## 5. Configure o backend
+
+Utilize o XAMPP e coloque a pasta do backend em:
+
+```
+htdocs/
+```
+
+Configure as credenciais do banco em
+
+```
+config/database.php
+```
+
+---
+
+## 6. Execute
+
+Frontend
+
+```bash
+npm run dev
+```
+
+Backend
+
+```
+Apache + MySQL (XAMPP)
+```
+
+---
+
+# 📂 Estrutura do Projeto
+
+```
+src
+│
+├── components
+│
+├── hooks
+│
+├── layouts
+│
+├── pages
+│
+├── services
+│
+├── styles
+│
+├── utils
+│
+└── router
+
+backend
+│
+├── auth
+├── tasks
+├── progress
+├── admin
+└── config
+```
+
+---
+
+# 📋 Requisitos Funcionais
+
+**RF01** – Permitir cadastro de usuários.
+
+**RF02** – Permitir autenticação por login.
+
+**RF03** – Permitir criação de tarefas.
+
+**RF04** – Permitir edição de tarefas.
+
+**RF05** – Permitir exclusão de tarefas.
+
+**RF06** – Permitir definir recorrência da tarefa.
+
+**RF07** – Permitir concluir tarefas.
+
+**RF08** – Exibir tarefas do usuário.
+
+**RF09** – Gerar indicadores de progresso.
+
+**RF10** – Possuir perfil Administrador.
+
+**RF11** – Permitir bloqueio de usuários.
+
+**RF12** – Permitir exclusão de usuários.
+
+---
+
+# 📋 Requisitos Não Funcionais
+
+**RNF01** – Interface responsiva.
+
+**RNF02** – Senhas armazenadas criptografadas.
+
+**RNF03** – Organização modular do código.
+
+**RNF04** – Comunicação Frontend/Backend via API.
+
+**RNF05** – Persistência em banco MySQL.
+
+**RNF06** – Código organizado seguindo boas práticas.
+
+---
+
+# 📚 Documentação
+
+Modelo C4
+
+https://docs.google.com/document/d/17f2PVuOm84QrsEiIe9tt2iVzr5U_io2kb9HyUzpglsM/edit?usp=sharing
+
+---
+
+# 👨‍💻 Autor
+
+**Pedro Henrique Coppola**
+
+[LinkedIn](https://www.linkedin.com/in/pedro-henrique-coppola-071baa225/)
+
+[Instagram](https://www.instagram.com/pedrocoppola_/)
+
+---
+
+# 📄 Licença
+
+Projeto desenvolvido para fins acadêmicos durante a disciplina de Engenharia de Software.
